@@ -125,6 +125,16 @@
     @apply shadow-[var(--shadow-button-hover)];
   }
 
+  .btn-trust-no-color-anim {
+    @apply bg-primary text-primary-foreground px-8 py-4 rounded-lg font-semibold text-base;
+    @apply shadow-[var(--shadow-button)];
+  }
+
+  .btn-trust-no-color-anim:hover {
+    @apply -translate-y-0.5;
+    @apply shadow-[var(--shadow-button-hover)];
+  }
+
   .btn-ghost {
     @apply bg-transparent text-muted-foreground border border-border px-6 py-3 rounded-lg;
     @apply transition-all duration-300 ease-out hover:border-primary hover:text-primary;

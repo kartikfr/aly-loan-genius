@@ -48,7 +48,7 @@ export const NavigationButtons = () => {
         <button
           onClick={handleNext}
           disabled={state.isLoading}
-          className="btn-trust flex items-center gap-2 min-w-[140px] justify-center hover-scale animate-pulse"
+          className="btn-trust-no-color-anim flex items-center gap-2 min-w-[140px] justify-center hover-scale"
         >
           {state.isLoading ? (
             <Loader2 className="h-4 w-4 animate-spin" />
