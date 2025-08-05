@@ -157,6 +157,16 @@
     @apply h-2 bg-muted rounded-full overflow-hidden;
   }
 
+  /* Hide scrollbars for horizontal layout */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
   .progress-fill {
     @apply h-full bg-gradient-to-r from-primary to-success rounded-full;
     @apply transition-all duration-700 ease-out;

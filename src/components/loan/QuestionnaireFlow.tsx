@@ -8,30 +8,51 @@ import { NavigationButtons } from './NavigationButtons';
 export const QuestionnaireFlow = () => {
   const { state } = useQuestionnaire();
 
-  const renderCurrentQuestion = () => {
-    const { currentStep } = state;
-
-    switch (currentStep) {
-      case 1:
-        return <PersonalInfoSection />;
-      case 2:
-        return <LoanRequirementsSection />;
-      case 3:
-        return <EmploymentSection />;
-      case 4:
-        return <IncomeLocationSection />;
-      default:
-        return null;
-    }
-  };
+  const sections = [
+    { id: 1, component: <PersonalInfoSection />, title: 'Personal Info' },
+    { id: 2, component: <LoanRequirementsSection />, title: 'Loan Requirements' },
+    { id: 3, component: <EmploymentSection />, title: 'Employment' },
+    { id: 4, component: <IncomeLocationSection />, title: 'Income & Location' }
+  ];
 
   return (
-    <div className="space-y-8">
-      <div className="form-card">
-        {renderCurrentQuestion()}
+    <div className="w-full">
+      {/* Horizontal section layout */}
+      <div className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide">
+        {sections.map((section, index) => (
+          <div
+            key={section.id}
+            className={`
+              flex-none w-full min-h-[600px] snap-center
+              ${index !== sections.length - 1 ? 'mr-8' : ''}
+              ${state.currentStep === section.id ? 'block' : 'hidden'}
+            `}
+          >
+            <div className="form-card h-full">
+              {section.component}
+            </div>
+          </div>
+        ))}
       </div>
-      
-      <NavigationButtons />
+
+      {/* Mobile horizontal dots indicator */}
+      <div className="flex justify-center items-center gap-2 mt-6 md:hidden">
+        {sections.map((section) => (
+          <div
+            key={section.id}
+            className={`
+              w-2 h-2 rounded-full transition-all duration-300
+              ${state.currentStep === section.id 
+                ? 'bg-primary w-6' 
+                : 'bg-muted-foreground/30'
+              }
+            `}
+          />
+        ))}
+      </div>
+
+      {/* Navigation buttons are hidden as requested */}
+      {/* <NavigationButtons /> */}
     </div>
   );
 };
