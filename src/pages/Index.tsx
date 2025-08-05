@@ -59,14 +59,43 @@ const Index = () => {
       </section>
 
       {/* Why Us Section */}
-      <section className="py-16 bg-background">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-poppins font-semibold text-center mb-6">
+      <section className="py-16 bg-muted/30">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-poppins font-semibold text-center mb-12">
             Why Loan Genius?
           </h2>
-          <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            With Loan Genius, you don't just compare loans. You understand them. We respect your privacy and help you navigate your loan journey smoothly so you don't have to do any research work.
-          </p>
+          
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <div className="text-center group">
+              <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-primary/20 transition-colors">
+                <Shield className="h-10 w-10 text-primary" />
+              </div>
+              <h3 className="text-xl font-semibold mb-4">Privacy First</h3>
+              <p className="text-muted-foreground">
+                We respect your privacy and keep your data secure with bank-grade encryption
+              </p>
+            </div>
+            
+            <div className="text-center group">
+              <div className="w-20 h-20 bg-success/10 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-success/20 transition-colors">
+                <Users className="h-10 w-10 text-success" />
+              </div>
+              <h3 className="text-xl font-semibold mb-4">Guided Journey</h3>
+              <p className="text-muted-foreground">
+                Our experts guide you through every step, so you don't need to do research
+              </p>
+            </div>
+            
+            <div className="text-center group">
+              <div className="w-20 h-20 bg-warning/10 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-warning/20 transition-colors">
+                <Award className="h-10 w-10 text-warning" />
+              </div>
+              <h3 className="text-xl font-semibold mb-4">Smart Matching</h3>
+              <p className="text-muted-foreground">
+                Don't just compare loans - understand them with our AI-powered recommendations
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
