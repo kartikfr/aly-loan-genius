@@ -29,7 +29,7 @@ const Index = () => {
           </h1>
           
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
-            Compare offers from 20+ trusted lenders. No hidden fees. No credit score impact.
+            With Loan Genius, you don't just compare loans. You understand them. We respect your privacy and help you navigate your loan journey smoothly so you don't have to do any research work.
           </p>
 
           <Link
