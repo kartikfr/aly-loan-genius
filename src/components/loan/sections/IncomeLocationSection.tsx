@@ -220,22 +220,26 @@ export const IncomeLocationSection = () => {
         });
         
         if (response.ok) {
-          const data = await response.json();
-          console.log('Pincode API response via proxy:', data);
+          const apiResponse = await response.json();
+          console.log('Pincode API response via proxy:', apiResponse);
           
-          if (data.city && data.state) {
-            if (type === 'residential') {
-              updateFormData({ 
-                city: data.city, 
-                state: data.state 
-              });
-            } else {
-              updateFormData({ 
-                office_city: data.city, 
-                office_state: data.state 
-              });
+          // Handle the specific API response structure
+          if (apiResponse.status === 'success' && apiResponse.data && Array.isArray(apiResponse.data) && apiResponse.data.length > 0) {
+            const locationData = apiResponse.data[0];
+            if (locationData.city && locationData.state) {
+              if (type === 'residential') {
+                updateFormData({ 
+                  city: locationData.city, 
+                  state: locationData.state 
+                });
+              } else {
+                updateFormData({ 
+                  office_city: locationData.city, 
+                  office_state: locationData.state 
+                });
+              }
+              return;
             }
-            return;
           }
         }
       } catch (error) {
