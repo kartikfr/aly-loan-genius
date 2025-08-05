@@ -23,12 +23,12 @@ const Index = () => {
             </div>
           </div>
 
-          <h1 className="text-5xl md:text-6xl font-poppins font-bold text-foreground mb-6 leading-tight">
+          <h1 className="text-5xl md:text-6xl font-poppins font-bold text-foreground mb-6 leading-tight animate-blur-in">
             Find Your Perfect Loan in{' '}
             <span className="text-primary">Under 3 Minutes</span>
           </h1>
           
-          <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed animate-blur-in">
             Compare offers from 20+ trusted lenders. No hidden fees. No credit score impact.
           </p>
 

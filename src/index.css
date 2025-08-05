@@ -116,7 +116,7 @@
   /* Trust-focused button styles */
   .btn-trust {
     @apply bg-primary text-primary-foreground px-8 py-4 rounded-lg font-semibold text-base;
-    @apply transition-all duration-300 ease-out;
+    @apply transition-all duration-300 ease-out btn-blur-hover animate-blur-in;
     @apply shadow-[var(--shadow-button)];
   }
 
@@ -127,7 +127,7 @@
 
   .btn-ghost {
     @apply bg-transparent text-muted-foreground border border-border px-6 py-3 rounded-lg;
-    @apply transition-all duration-300 ease-out hover:border-primary hover:text-primary;
+    @apply transition-all duration-300 ease-out hover:border-primary hover:text-primary btn-blur-hover animate-blur-in;
   }
 
   /* Professional form styles */
@@ -138,7 +138,7 @@
 
   .form-input {
     @apply w-full px-4 py-4 border-2 border-input rounded-lg text-base bg-background;
-    @apply transition-all duration-300 ease-out;
+    @apply transition-all duration-300 ease-out text-blur-focus animate-blur-in;
     @apply focus:border-primary focus:ring-4 focus:ring-primary/10 focus:outline-none;
   }
 
@@ -220,6 +220,60 @@
     }
   }
 
+  /* Blur animations for enhanced user experience */
+  @keyframes blur-in {
+    0% {
+      filter: blur(4px);
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    100% {
+      filter: blur(0px);
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes blur-out {
+    0% {
+      filter: blur(0px);
+      opacity: 1;
+      transform: translateY(0);
+    }
+    100% {
+      filter: blur(4px);
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+  }
+
+  .animate-blur-in {
+    animation: blur-in 0.5s ease-out;
+  }
+
+  .animate-blur-out {
+    animation: blur-out 0.3s ease-out;
+  }
+
+  /* Button blur hover effects */
+  .btn-blur-hover {
+    transition: all 0.3s ease-out;
+  }
+
+  .btn-blur-hover:hover {
+    filter: drop-shadow(0 4px 8px rgba(30, 64, 175, 0.3));
+    transform: translateY(-1px);
+  }
+
+  /* Text blur focus effects */
+  .text-blur-focus {
+    transition: filter 0.3s ease-out;
+  }
+
+  .text-blur-focus:focus-within {
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  }
+
   .progress-fill {
     @apply h-full bg-gradient-to-r from-primary to-success rounded-full;
     @apply transition-all duration-700 ease-out;
@@ -228,5 +282,6 @@
   /* Trust badges */
   .trust-badge {
     @apply flex items-center gap-2 px-3 py-2 bg-success/10 text-success rounded-full text-sm font-medium;
+    @apply animate-blur-in;
   }
 }
