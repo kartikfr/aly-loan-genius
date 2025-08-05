@@ -29,7 +29,7 @@ const Index = () => {
           </h1>
           
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
-            With Loan Genius, you don't just compare loans. You understand them. We respect your privacy and help you navigate your loan journey smoothly so you don't have to do any research work.
+            Compare offers from 20+ trusted lenders. No hidden fees. No credit score impact.
           </p>
 
           <Link
@@ -55,6 +55,18 @@ const Index = () => {
               <span>RBI Registered Partners</span>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Why Us Section */}
+      <section className="py-16 bg-background">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-3xl font-poppins font-semibold text-center mb-6">
+            Why Loan Genius?
+          </h2>
+          <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+            With Loan Genius, you don't just compare loans. You understand them. We respect your privacy and help you navigate your loan journey smoothly so you don't have to do any research work.
+          </p>
         </div>
       </section>
 
