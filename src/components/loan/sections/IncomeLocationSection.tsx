@@ -200,25 +200,25 @@ export const IncomeLocationSection = () => {
           {errors.pincode && (
             <p className="text-destructive text-sm mt-1">{errors.pincode}</p>
           )}
-          {/* Auto-populated city and state */}
-          {formData.city && formData.state && (
-            <div className="mt-2 p-3 bg-success/10 border border-success/20 rounded-lg">
-              <div className="flex items-center gap-2 mb-2">
-                <MapPin className="h-4 w-4 text-success" />
-                <span className="text-sm font-medium text-success">Location Details</span>
+          {/* Display pincode, city and state */}
+          {formData.pincode && (
+            <div className="mt-3 p-4 bg-muted/50 border rounded-lg">
+              <div className="flex items-center gap-2 mb-3">
+                <MapPin className="h-4 w-4 text-primary" />
+                <span className="text-sm font-medium text-foreground">Residential Location</span>
               </div>
               <div className="grid grid-cols-3 gap-4 text-sm">
                 <div>
-                  <span className="font-medium text-muted-foreground">Pincode:</span>
-                  <div className="text-foreground">{formData.pincode}</div>
+                  <span className="font-medium text-muted-foreground block">Pincode</span>
+                  <div className="text-foreground font-medium">{formData.pincode}</div>
                 </div>
                 <div>
-                  <span className="font-medium text-muted-foreground">City:</span>
-                  <div className="text-foreground">{formData.city}</div>
+                  <span className="font-medium text-muted-foreground block">City</span>
+                  <div className="text-foreground font-medium">{formData.city || 'Loading...'}</div>
                 </div>
                 <div>
-                  <span className="font-medium text-muted-foreground">State:</span>
-                  <div className="text-foreground">{formData.state}</div>
+                  <span className="font-medium text-muted-foreground block">State</span>
+                  <div className="text-foreground font-medium">{formData.state || 'Loading...'}</div>
                 </div>
               </div>
             </div>
@@ -250,25 +250,25 @@ export const IncomeLocationSection = () => {
           {errors.office_pincode && (
             <p className="text-destructive text-sm mt-1">{errors.office_pincode}</p>
           )}
-          {/* Auto-populated office city and state */}
-          {formData.office_city && formData.office_state && (
-            <div className="mt-2 p-3 bg-success/10 border border-success/20 rounded-lg">
-              <div className="flex items-center gap-2 mb-2">
-                <MapPin className="h-4 w-4 text-success" />
-                <span className="text-sm font-medium text-success">Office Location Details</span>
+          {/* Display office pincode, city and state */}
+          {formData.office_pincode && (
+            <div className="mt-3 p-4 bg-muted/50 border rounded-lg">
+              <div className="flex items-center gap-2 mb-3">
+                <MapPin className="h-4 w-4 text-primary" />
+                <span className="text-sm font-medium text-foreground">Office Location</span>
               </div>
               <div className="grid grid-cols-3 gap-4 text-sm">
                 <div>
-                  <span className="font-medium text-muted-foreground">Pincode:</span>
-                  <div className="text-foreground">{formData.office_pincode}</div>
+                  <span className="font-medium text-muted-foreground block">Pincode</span>
+                  <div className="text-foreground font-medium">{formData.office_pincode}</div>
                 </div>
                 <div>
-                  <span className="font-medium text-muted-foreground">City:</span>
-                  <div className="text-foreground">{formData.office_city}</div>
+                  <span className="font-medium text-muted-foreground block">City</span>
+                  <div className="text-foreground font-medium">{formData.office_city || 'Loading...'}</div>
                 </div>
                 <div>
-                  <span className="font-medium text-muted-foreground">State:</span>
-                  <div className="text-foreground">{formData.office_state}</div>
+                  <span className="font-medium text-muted-foreground block">State</span>
+                  <div className="text-foreground font-medium">{formData.office_state || 'Loading...'}</div>
                 </div>
               </div>
             </div>
