@@ -1,58 +1,83 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, Shield, Check, Clock, Star, Users, Award } from 'lucide-react';
+import { ArrowRight, Shield, Check, Clock, Star, Users, Award, Target, Zap, TrendingUp } from 'lucide-react';
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-primary/10 via-background to-success/5 pt-20 pb-32">
-        <div className="container mx-auto px-4 text-center">
+      <section className="relative overflow-hidden bg-gradient-to-br from-primary/5 via-background to-success/10 pt-20 pb-32">
+        {/* Background decorative elements */}
+        <div className="absolute top-20 left-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-success/5 rounded-full blur-3xl"></div>
+        
+        <div className="container mx-auto px-4 text-center relative z-10">
           {/* Trust indicators */}
-          <div className="flex items-center justify-center gap-6 mb-8">
-            <div className="trust-badge">
+          <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6 mb-10">
+            <div className="trust-badge animate-fade-in hover-scale">
               <Shield className="h-4 w-4" />
-              <span>256-bit SSL Encrypted</span>
+              <span className="text-xs md:text-sm">256-bit SSL Encrypted</span>
             </div>
-            <div className="trust-badge">
+            <div className="trust-badge animate-fade-in hover-scale">
               <Check className="h-4 w-4" />
-              <span>No Credit Score Impact</span>
+              <span className="text-xs md:text-sm">No Credit Score Impact</span>
             </div>
-            <div className="trust-badge">
+            <div className="trust-badge animate-fade-in hover-scale">
               <Clock className="h-4 w-4" />
-              <span>2-3 Minutes Only</span>
+              <span className="text-xs md:text-sm">Under 57 Seconds</span>
             </div>
           </div>
 
-          <h1 className="text-5xl md:text-6xl font-poppins font-bold text-foreground mb-6 leading-tight">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-poppins font-bold text-foreground mb-6 leading-tight animate-fade-in">
             Find Your Perfect Loan in{' '}
-            <span className="text-primary">under 57 secs</span>
+            <span className="bg-gradient-to-r from-primary to-primary-hover bg-clip-text text-transparent">
+              under 57 secs
+            </span>
           </h1>
           
-          <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
-            Compare offers from 20+ trusted lenders. No hidden fees. No credit score impact.
+          <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-3xl mx-auto leading-relaxed animate-fade-in">
+            Compare personalized offers from 20+ trusted lenders. Zero hidden fees, zero credit impact, maximum transparency.
           </p>
 
-          <Link
-            to="/questionnaire"
-            className="btn-trust inline-flex items-center gap-3 text-lg"
-          >
-            Get My Best Rates Now
-            <ArrowRight className="h-5 w-5" />
-          </Link>
+          <div className="mb-12 animate-fade-in">
+            <Link
+              to="/questionnaire"
+              className="btn-trust inline-flex items-center gap-3 text-lg hover-scale group"
+            >
+              Get My Best Rates Now
+              <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
 
-          {/* Social proof */}
-          <div className="mt-12 flex items-center justify-center gap-8 text-sm text-muted-foreground">
-            <div className="flex items-center gap-2">
-              <Users className="h-4 w-4 text-primary" />
-              <span>Trusted by 1,00,000+ Indians</span>
+          {/* Enhanced social proof with cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 max-w-4xl mx-auto animate-fade-in">
+            <div className="bg-card/50 backdrop-blur-sm border border-border/50 rounded-xl p-4 hover:bg-card/80 transition-all hover-scale">
+              <div className="flex items-center justify-center gap-3">
+                <Users className="h-5 w-5 text-primary" />
+                <div className="text-left">
+                  <div className="font-semibold text-foreground">1,00,000+</div>
+                  <div className="text-xs text-muted-foreground">Happy Customers</div>
+                </div>
+              </div>
             </div>
-            <div className="flex items-center gap-2">
-              <Star className="h-4 w-4 text-warning fill-current" />
-              <span>4.8/5 rating on Google</span>
+            
+            <div className="bg-card/50 backdrop-blur-sm border border-border/50 rounded-xl p-4 hover:bg-card/80 transition-all hover-scale">
+              <div className="flex items-center justify-center gap-3">
+                <Star className="h-5 w-5 text-warning fill-current" />
+                <div className="text-left">
+                  <div className="font-semibold text-foreground">4.8/5</div>
+                  <div className="text-xs text-muted-foreground">Google Rating</div>
+                </div>
+              </div>
             </div>
-            <div className="flex items-center gap-2">
-              <Award className="h-4 w-4 text-success" />
-              <span>RBI Registered Partners</span>
+            
+            <div className="bg-card/50 backdrop-blur-sm border border-border/50 rounded-xl p-4 hover:bg-card/80 transition-all hover-scale">
+              <div className="flex items-center justify-center gap-3">
+                <Award className="h-5 w-5 text-success" />
+                <div className="text-left">
+                  <div className="font-semibold text-foreground">RBI</div>
+                  <div className="text-xs text-muted-foreground">Registered Partners</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -100,67 +125,104 @@ const Index = () => {
       </section>
 
       {/* How it works */}
-      <section className="py-20 bg-card">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-poppins font-semibold text-center mb-12">
-            How Loan Genius Works
-          </h2>
+      <section className="py-20 bg-background relative overflow-hidden">
+        {/* Decorative background */}
+        <div className="absolute top-0 right-0 w-80 h-80 bg-gradient-to-br from-primary/5 to-transparent rounded-full blur-3xl"></div>
+        
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-poppins font-semibold mb-4">
+              How Loan Genius Works
+            </h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Get matched with the perfect loan in three simple steps
+            </p>
+          </div>
           
-          <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-primary">1</span>
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <div className="relative group">
+              {/* Connection line */}
+              <div className="hidden md:block absolute top-8 left-full w-full h-0.5 bg-gradient-to-r from-primary/30 to-transparent z-0"></div>
+              
+              <div className="bg-card border border-border rounded-2xl p-8 text-center hover:shadow-lg transition-all group-hover:-translate-y-2 relative z-10">
+                <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary-hover rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Target className="h-8 w-8 text-white" />
+                </div>
+                <h3 className="text-xl font-semibold mb-4">Quick Assessment</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  Answer a few simple questions about your loan needs and financial situation in under 57 seconds
+                </p>
               </div>
-              <h3 className="text-xl font-semibold mb-3">Answer Quick Questions</h3>
-              <p className="text-muted-foreground">
-                Tell us about your loan needs, income, and employment in just 3 minutes
-              </p>
             </div>
             
-            <div className="text-center">
-              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-primary">2</span>
+            <div className="relative group">
+              {/* Connection line */}
+              <div className="hidden md:block absolute top-8 left-full w-full h-0.5 bg-gradient-to-r from-primary/30 to-transparent z-0"></div>
+              
+              <div className="bg-card border border-border rounded-2xl p-8 text-center hover:shadow-lg transition-all group-hover:-translate-y-2 relative z-10">
+                <div className="w-16 h-16 bg-gradient-to-br from-success to-success/80 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Zap className="h-8 w-8 text-white" />
+                </div>
+                <h3 className="text-xl font-semibold mb-4">Smart Matching</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  Our AI instantly analyzes 20+ lenders to find personalized offers that match your profile
+                </p>
               </div>
-              <h3 className="text-xl font-semibold mb-3">Get Matched Instantly</h3>
-              <p className="text-muted-foreground">
-                Our AI compares 20+ lenders to find your best loan offers
-              </p>
             </div>
             
-            <div className="text-center">
-              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-primary">3</span>
+            <div className="relative group">
+              <div className="bg-card border border-border rounded-2xl p-8 text-center hover:shadow-lg transition-all group-hover:-translate-y-2 relative z-10">
+                <div className="w-16 h-16 bg-gradient-to-br from-warning to-warning/80 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <TrendingUp className="h-8 w-8 text-white" />
+                </div>
+                <h3 className="text-xl font-semibold mb-4">Instant Approval</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  Choose your preferred offer and get instant pre-approval with competitive rates
+                </p>
               </div>
-              <h3 className="text-xl font-semibold mb-3">Choose & Apply</h3>
-              <p className="text-muted-foreground">
-                Select your preferred offer and get instant pre-approval
-              </p>
             </div>
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-primary to-primary-hover">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-poppins font-semibold text-primary-foreground mb-4">
+      <section className="py-20 bg-gradient-to-r from-primary via-primary-hover to-primary relative overflow-hidden">
+        {/* Background decorative elements */}
+        <div className="absolute top-10 left-10 w-64 h-64 bg-white/5 rounded-full blur-2xl"></div>
+        <div className="absolute bottom-10 right-10 w-80 h-80 bg-white/5 rounded-full blur-3xl"></div>
+        
+        <div className="container mx-auto px-4 text-center relative z-10">
+          <h2 className="text-3xl md:text-4xl font-poppins font-semibold text-primary-foreground mb-6">
             Ready to find your perfect loan?
           </h2>
-          <p className="text-xl text-primary-foreground/90 mb-8">
+          <p className="text-lg md:text-xl text-primary-foreground/90 mb-10 max-w-2xl mx-auto">
             Join thousands of satisfied customers who found their ideal loan through Loan Genius
           </p>
           
-          <Link
-            to="/questionnaire"
-            className="inline-flex items-center gap-3 bg-white text-primary px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-50 transition-colors"
-          >
-            Start My Application
-            <ArrowRight className="h-5 w-5" />
-          </Link>
+          <div className="mb-8">
+            <Link
+              to="/questionnaire"
+              className="inline-flex items-center gap-3 bg-white text-primary px-8 py-4 rounded-xl font-semibold text-lg hover:bg-gray-50 transition-all hover-scale group shadow-lg"
+            >
+              Start My Application
+              <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
           
-          <p className="text-primary-foreground/80 text-sm mt-4">
-            Secure • No impact on credit score • Takes 2 minutes
-          </p>
+          <div className="flex flex-wrap items-center justify-center gap-6 text-primary-foreground/80 text-sm">
+            <div className="flex items-center gap-2">
+              <Shield className="h-4 w-4" />
+              <span>Secure & Encrypted</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Check className="h-4 w-4" />
+              <span>No Credit Score Impact</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Clock className="h-4 w-4" />
+              <span>Takes Under 57 Seconds</span>
+            </div>
+          </div>
         </div>
       </section>
     </div>
