@@ -25,7 +25,7 @@ const Index = () => {
 
           <h1 className="text-5xl md:text-6xl font-poppins font-bold text-foreground mb-6 leading-tight">
             Find Your Perfect Loan in{' '}
-            <span className="text-primary">Under 3 Minutes</span>
+            <span className="text-primary">under 57 secs</span>
           </h1>
           
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
