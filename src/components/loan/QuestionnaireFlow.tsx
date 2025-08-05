@@ -11,27 +11,18 @@ export const QuestionnaireFlow = () => {
   const renderCurrentQuestion = () => {
     const { currentStep } = state;
 
-    // Personal Information (Steps 1-4)
-    if (currentStep >= 1 && currentStep <= 4) {
-      return <PersonalInfoSection />;
+    switch (currentStep) {
+      case 1:
+        return <PersonalInfoSection />;
+      case 2:
+        return <LoanRequirementsSection />;
+      case 3:
+        return <EmploymentSection />;
+      case 4:
+        return <IncomeLocationSection />;
+      default:
+        return null;
     }
-    
-    // Loan Requirements (Steps 5-7)
-    if (currentStep >= 5 && currentStep <= 7) {
-      return <LoanRequirementsSection />;
-    }
-    
-    // Employment Details (Steps 8-9)
-    if (currentStep >= 8 && currentStep <= 9) {
-      return <EmploymentSection />;
-    }
-    
-    // Income & Location (Steps 10-13)
-    if (currentStep >= 10 && currentStep <= 13) {
-      return <IncomeLocationSection />;
-    }
-
-    return null;
   };
 
   return (

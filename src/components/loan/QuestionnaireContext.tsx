@@ -119,7 +119,7 @@ export const QuestionnaireProvider: React.FC<{ children: ReactNode }> = ({ child
     dispatch({ type: 'SET_ERRORS', payload: clearedErrors });
   };
 
-  const getTotalSteps = () => 13; // Total number of questions
+  const getTotalSteps = () => 4; // Total number of pages
 
   const getProgressPercentage = () => {
     return Math.round((state.currentStep / getTotalSteps()) * 100);
@@ -130,56 +130,41 @@ export const QuestionnaireProvider: React.FC<{ children: ReactNode }> = ({ child
     const errors: Record<string, string> = {};
 
     switch (state.currentStep) {
-      case 1: // Name
+      case 1: // Personal Details (Name + DOB + Gender + PAN)
         if (!formData.first_name.trim()) errors.first_name = 'First name is required';
         if (!formData.last_name.trim()) errors.last_name = 'Last name is required';
-        break;
-      case 2: // Date of Birth
         if (!formData.dob) errors.dob = 'Date of birth is required';
-        break;
-      case 3: // Gender
         if (!formData.gender) errors.gender = 'Gender selection is required';
-        break;
-      case 4: // PAN
         if (!formData.pan.trim()) {
           errors.pan = 'PAN card number is required';
         } else if (!/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(formData.pan)) {
           errors.pan = 'Invalid PAN format (e.g., ABCDE1234F)';
         }
         break;
-      case 5: // Loan Amount
+        
+      case 2: // Loan Requirements (Amount + Timeline + Credit History)
         if (!formData.loan_amount_required) {
           errors.loan_amount_required = 'Loan amount is required';
         } else if (parseInt(formData.loan_amount_required) < 10000) {
           errors.loan_amount_required = 'Minimum loan amount is ₹10,000';
         }
-        break;
-      case 6: // Timeline
         if (!formData.timeline) errors.timeline = 'Please select when you need the loan';
-        break;
-      case 7: // Credit History
         if (formData.already_existing_credit === null) errors.already_existing_credit = 'Please select your credit experience';
         break;
-      case 8: // Employment Status
+        
+      case 3: // Employment Info (Status + Company)
         if (!formData.employmentStatus) errors.employmentStatus = 'Employment status is required';
-        break;
-      case 9: // Company Name
         if (!formData.company_name.trim()) errors.company_name = 'Company name is required';
         break;
-      case 10: // Monthly Income
+        
+      case 4: // Income & Location (Income + Payment Method + Pincodes)
         if (!formData.inhandIncome) errors.inhandIncome = 'Monthly income is required';
-        break;
-      case 11: // Payment Method
         if (!formData.salary_recieved_in) errors.salary_recieved_in = 'Payment method is required';
-        break;
-      case 12: // Residential Pincode
         if (!formData.pincode) {
           errors.pincode = 'Residential pincode is required';
         } else if (!/^\d{6}$/.test(formData.pincode)) {
           errors.pincode = 'Pincode must be 6 digits';
         }
-        break;
-      case 13: // Office Pincode
         if (!formData.office_pincode) {
           errors.office_pincode = 'Office pincode is required';
         } else if (!/^\d{6}$/.test(formData.office_pincode)) {
