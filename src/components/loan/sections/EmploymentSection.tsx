@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { useQuestionnaire } from '../QuestionnaireContext';
 import { Search, Building } from 'lucide-react';
@@ -18,54 +19,64 @@ export const EmploymentSection = () => {
   // Company search API integration
   useEffect(() => {
     const searchCompanies = async () => {
-      // Check for at least 3 words instead of 3 characters
-      const wordCount = companySearch.trim().split(/\s+/).length;
-      if (companySearch.length >= 3 && wordCount >= 1) { // Keep 3 chars but ensure meaningful search
+      // Trigger search after user types at least 1 character
+      if (companySearch.trim().length >= 1) {
         setIsSearching(true);
         try {
-          const response = await fetch(
-            `https://bk-prod-external.bankkaro.com/sp/api/companies/${encodeURIComponent(companySearch)}?type=PL`,
-            {
-              method: 'GET',
-              headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-              }
-            }
-          );
+          // Construct the API URL correctly - search term goes directly after companies/
+          const apiUrl = `https://bk-prod-external.bankkaro.com/sp/api/companies/${encodeURIComponent(companySearch.trim())}?type=PL`;
+          console.log('API URL:', apiUrl);
+          
+          const response = await fetch(apiUrl, {
+            method: 'GET',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+            },
+            // Add mode to handle CORS
+            mode: 'cors',
+          });
           
           if (response.ok) {
             const data = await response.json();
-            console.log('Company API Response:', data); // Debug log
+            console.log('Company API Response:', data);
             
-            // Handle response structure - expecting array of objects with companyName
+            // Handle different response structures
             if (Array.isArray(data)) {
               setCompanyResults(data);
             } else if (data && typeof data === 'object') {
               // If response is object with company data under IDs
-              const companies = Object.values(data).filter((item): item is CompanyResult => 
-                item !== null && typeof item === 'object' && 'companyName' in item
-              ) as CompanyResult[];
+              const companies = Object.entries(data).map(([id, company]) => {
+                if (typeof company === 'object' && company !== null) {
+                  return { id, ...company } as CompanyResult;
+                }
+                return { id, companyName: String(company) } as CompanyResult;
+              }).filter(company => company.companyName || company.name);
+              
+              console.log('Processed companies:', companies);
               setCompanyResults(companies);
             } else {
               setCompanyResults([]);
             }
           } else {
             console.error('API Error:', response.status, response.statusText);
+            // For now, allow manual entry if API fails
             setCompanyResults([]);
           }
         } catch (error) {
           console.error('Company search error:', error);
-          // Fallback: allow manual entry
+          // If CORS or network error, allow manual entry
           setCompanyResults([]);
         } finally {
           setIsSearching(false);
         }
       } else {
         setCompanyResults([]);
+        setIsSearching(false);
       }
     };
 
+    // Debounce the search to avoid too many API calls
     const timeoutId = setTimeout(searchCompanies, 300);
     return () => clearTimeout(timeoutId);
   }, [companySearch]);
@@ -164,10 +175,10 @@ export const EmploymentSection = () => {
               
               {/* Company search results */}
               {companyResults.length > 0 && (
-                <div className="mt-2 bg-card border border-border rounded-lg shadow-lg max-h-48 overflow-y-auto">
+                <div className="mt-2 bg-card border border-border rounded-lg shadow-lg max-h-48 overflow-y-auto z-50">
                   {companyResults.slice(0, 10).map((company, index) => (
                     <button
-                      key={index}
+                      key={company.id || index}
                       onClick={() => {
                         const companyName = company.companyName || company.name || String(company);
                         updateFormData({ company_name: companyName });
@@ -182,6 +193,15 @@ export const EmploymentSection = () => {
                       </div>
                     </button>
                   ))}
+                </div>
+              )}
+              
+              {/* Show message if searching but no results */}
+              {companySearch.length >= 1 && !isSearching && companyResults.length === 0 && (
+                <div className="mt-2 p-3 bg-muted rounded-lg">
+                  <p className="text-sm text-muted-foreground">
+                    No companies found. You can type your company name and continue.
+                  </p>
                 </div>
               )}
               
