@@ -24,6 +24,8 @@ export interface FormData {
   office_pincode: string;
   city: string;
   state: string;
+  office_city: string;
+  office_state: string;
 }
 
 interface QuestionnaireState {
@@ -59,6 +61,8 @@ const initialState: QuestionnaireState = {
     office_pincode: '',
     city: '',
     state: '',
+    office_city: '',
+    office_state: '',
   },
   errors: {},
   isLoading: false,

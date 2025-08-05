@@ -5,8 +5,8 @@ export const IncomeLocationSection = () => {
   const { state, updateFormData } = useQuestionnaire();
   const { formData, errors } = state;
 
-  // Pincode validation and city/state fetch
-  const fetchLocationFromPincode = async (pincode: string) => {
+  // Pincode validation and city/state fetch for residential
+  const fetchLocationFromPincode = async (pincode: string, type: 'residential' | 'office') => {
     if (pincode.length === 6) {
       try {
         const response = await fetch(
@@ -15,10 +15,17 @@ export const IncomeLocationSection = () => {
         if (response.ok) {
           const data = await response.json();
           if (data.city && data.state) {
-            updateFormData({ 
-              city: data.city, 
-              state: data.state 
-            });
+            if (type === 'residential') {
+              updateFormData({ 
+                city: data.city, 
+                state: data.state 
+              });
+            } else {
+              updateFormData({ 
+                office_city: data.city, 
+                office_state: data.state 
+              });
+            }
           }
         }
       } catch (error) {
@@ -146,7 +153,7 @@ export const IncomeLocationSection = () => {
                 const value = e.target.value.replace(/[^\d]/g, '').slice(0, 6);
                 updateFormData({ pincode: value });
                 if (value.length === 6) {
-                  fetchLocationFromPincode(value);
+                  fetchLocationFromPincode(value, 'residential');
                 }
               }}
               placeholder="Enter 6-digit pincode"
@@ -159,11 +166,25 @@ export const IncomeLocationSection = () => {
           )}
           {/* Auto-populated city and state */}
           {formData.city && formData.state && (
-            <div className="flex items-center gap-3 mt-2 p-3 bg-success/10 border border-success/20 rounded-lg">
-              <MapPin className="h-4 w-4 text-success" />
-              <span className="text-sm font-medium text-success">
-                {formData.city}, {formData.state}
-              </span>
+            <div className="mt-2 p-3 bg-success/10 border border-success/20 rounded-lg">
+              <div className="flex items-center gap-2 mb-2">
+                <MapPin className="h-4 w-4 text-success" />
+                <span className="text-sm font-medium text-success">Location Details</span>
+              </div>
+              <div className="grid grid-cols-3 gap-4 text-sm">
+                <div>
+                  <span className="font-medium text-muted-foreground">Pincode:</span>
+                  <div className="text-foreground">{formData.pincode}</div>
+                </div>
+                <div>
+                  <span className="font-medium text-muted-foreground">City:</span>
+                  <div className="text-foreground">{formData.city}</div>
+                </div>
+                <div>
+                  <span className="font-medium text-muted-foreground">State:</span>
+                  <div className="text-foreground">{formData.state}</div>
+                </div>
+              </div>
             </div>
           )}
         </div>
@@ -181,6 +202,9 @@ export const IncomeLocationSection = () => {
               onChange={(e) => {
                 const value = e.target.value.replace(/[^\d]/g, '').slice(0, 6);
                 updateFormData({ office_pincode: value });
+                if (value.length === 6) {
+                  fetchLocationFromPincode(value, 'office');
+                }
               }}
               placeholder="Enter 6-digit pincode"
               className="form-input pl-12"
@@ -190,8 +214,37 @@ export const IncomeLocationSection = () => {
           {errors.office_pincode && (
             <p className="text-destructive text-sm mt-1">{errors.office_pincode}</p>
           )}
+          {/* Auto-populated office city and state */}
+          {formData.office_city && formData.office_state && (
+            <div className="mt-2 p-3 bg-success/10 border border-success/20 rounded-lg">
+              <div className="flex items-center gap-2 mb-2">
+                <MapPin className="h-4 w-4 text-success" />
+                <span className="text-sm font-medium text-success">Office Location Details</span>
+              </div>
+              <div className="grid grid-cols-3 gap-4 text-sm">
+                <div>
+                  <span className="font-medium text-muted-foreground">Pincode:</span>
+                  <div className="text-foreground">{formData.office_pincode}</div>
+                </div>
+                <div>
+                  <span className="font-medium text-muted-foreground">City:</span>
+                  <div className="text-foreground">{formData.office_city}</div>
+                </div>
+                <div>
+                  <span className="font-medium text-muted-foreground">State:</span>
+                  <div className="text-foreground">{formData.office_state}</div>
+                </div>
+              </div>
+            </div>
+          )}
           <button
-            onClick={() => updateFormData({ office_pincode: formData.pincode })}
+            onClick={() => {
+              updateFormData({ 
+                office_pincode: formData.pincode,
+                office_city: formData.city,
+                office_state: formData.state
+              });
+            }}
             className="w-full mt-2 py-2 text-sm text-primary border border-primary/20 rounded-lg hover:bg-primary/5 transition-colors"
             disabled={!formData.pincode}
           >
