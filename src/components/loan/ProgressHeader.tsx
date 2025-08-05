@@ -42,7 +42,7 @@ export const ProgressHeader = () => {
         {/* Progress bar */}
         <div className="mb-4">
           <div className="flex items-center justify-between text-sm text-muted-foreground mb-2">
-            <span>Question {state.currentStep} of 13</span>
+            <span>Section {getCurrentStepSection()} of 4</span>
             <span>{progressPercentage}% Complete</span>
           </div>
           <div className="progress-bar">
