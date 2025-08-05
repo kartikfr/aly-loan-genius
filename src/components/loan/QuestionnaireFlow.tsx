@@ -51,8 +51,8 @@ export const QuestionnaireFlow = () => {
         ))}
       </div>
 
-      {/* Navigation buttons are hidden as requested */}
-      {/* <NavigationButtons /> */}
+      {/* Navigation buttons for better UX and conversion */}
+      <NavigationButtons />
     </div>
   );
 };

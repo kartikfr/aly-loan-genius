@@ -19,31 +19,41 @@ export const NavigationButtons = () => {
   };
 
   return (
-    <div className="flex items-center justify-between pt-6">
+    <div className="flex items-center justify-between pt-8 px-4 md:px-0">
       <button
         onClick={prevStep}
         disabled={isFirstStep}
         className={`
-          btn-ghost flex items-center gap-2
+          btn-ghost flex items-center gap-2 min-w-[120px]
           ${isFirstStep ? 'opacity-50 cursor-not-allowed' : ''}
         `}
       >
         <ChevronLeft className="h-4 w-4" />
-        Go Back
+        <span className="hidden sm:inline">Go Back</span>
+        <span className="sm:hidden">Back</span>
       </button>
+
+      {/* Progress indicator for desktop */}
+      <div className="hidden md:flex items-center gap-2 text-sm text-muted-foreground">
+        <span>Section {state.currentStep} of {getTotalSteps()}</span>
+      </div>
 
       <button
         onClick={handleNext}
         disabled={state.isLoading}
-        className="btn-trust flex items-center gap-2"
+        className="btn-trust flex items-center gap-2 min-w-[140px] justify-center"
       >
         {state.isLoading ? (
           <Loader2 className="h-4 w-4 animate-spin" />
         ) : isLastStep ? (
-          'Get My Loan Offers'
+          <>
+            <span className="hidden sm:inline">Get My Loan Offers</span>
+            <span className="sm:hidden">Get Offers</span>
+          </>
         ) : (
           <>
-            Continue
+            <span className="hidden sm:inline">Continue</span>
+            <span className="sm:hidden">Next</span>
             <ChevronRight className="h-4 w-4" />
           </>
         )}
