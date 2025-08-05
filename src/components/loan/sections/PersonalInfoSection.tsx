@@ -1,4 +1,14 @@
 import { useQuestionnaire } from '../QuestionnaireContext';
+import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 export const PersonalInfoSection = () => {
   const { state, updateFormData } = useQuestionnaire();
@@ -56,70 +66,50 @@ export const PersonalInfoSection = () => {
           <label className="block text-sm font-medium text-foreground mb-2">
             Date of Birth *
           </label>
-          <div className="grid grid-cols-3 gap-3">
-            <select
-              value={formData.dob ? formData.dob.split('-')[2] : ''}
-              onChange={(e) => {
-                const day = e.target.value;
-                const [year, month] = formData.dob ? formData.dob.split('-') : ['', ''];
-                if (day && month && year) {
-                  updateFormData({ dob: `${year}-${month}-${day}` });
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                className={cn(
+                  "w-full justify-start text-left font-normal form-input p-4",
+                  !formData.dob && "text-muted-foreground"
+                )}
+              >
+                <CalendarIcon className="mr-2 h-4 w-4" />
+                {formData.dob ? (
+                  format(new Date(formData.dob), "PPP")
+                ) : (
+                  <span>Pick your date of birth</span>
+                )}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+              <Calendar
+                mode="single"
+                selected={formData.dob ? new Date(formData.dob) : undefined}
+                onSelect={(date) => {
+                  if (date) {
+                    const formattedDate = format(date, "yyyy-MM-dd");
+                    updateFormData({ dob: formattedDate });
+                  }
+                }}
+                disabled={(date) =>
+                  date > new Date() || date < new Date("1940-01-01")
                 }
-              }}
-              className="form-input"
-            >
-              <option value="">Day</option>
-              {Array.from({ length: 31 }, (_, i) => i + 1).map(day => (
-                <option key={day} value={day.toString().padStart(2, '0')}>
-                  {day}
-                </option>
-              ))}
-            </select>
-            
-            <select
-              value={formData.dob ? formData.dob.split('-')[1] : ''}
-              onChange={(e) => {
-                const month = e.target.value;
-                const [year, , day] = formData.dob ? formData.dob.split('-') : ['', '', ''];
-                if (day && month && year) {
-                  updateFormData({ dob: `${year}-${month}-${day}` });
-                }
-              }}
-              className="form-input"
-            >
-              <option value="">Month</option>
-              {[
-                'January', 'February', 'March', 'April', 'May', 'June',
-                'July', 'August', 'September', 'October', 'November', 'December'
-              ].map((month, index) => (
-                <option key={month} value={(index + 1).toString().padStart(2, '0')}>
-                  {month}
-                </option>
-              ))}
-            </select>
-            
-            <select
-              value={formData.dob ? formData.dob.split('-')[0] : ''}
-              onChange={(e) => {
-                const year = e.target.value;
-                const [, month, day] = formData.dob ? formData.dob.split('-') : ['', '', ''];
-                if (day && month && year) {
-                  updateFormData({ dob: `${year}-${month}-${day}` });
-                }
-              }}
-              className="form-input"
-            >
-              <option value="">Year</option>
-              {Array.from({ length: 67 }, (_, i) => 2006 - i).map(year => (
-                <option key={year} value={year}>
-                  {year}
-                </option>
-              ))}
-            </select>
-          </div>
+                initialFocus
+                className={cn("p-3 pointer-events-auto")}
+                captionLayout="dropdown-buttons"
+                fromYear={1940}
+                toYear={2006}
+              />
+            </PopoverContent>
+          </Popover>
           {errors.dob && (
             <p className="text-destructive text-sm mt-1">{errors.dob}</p>
           )}
+          <p className="text-sm text-muted-foreground mt-1">
+            You must be 18+ years old to apply
+          </p>
         </div>
 
         {/* Gender */}
