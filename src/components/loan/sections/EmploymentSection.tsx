@@ -16,60 +16,48 @@ export const EmploymentSection = () => {
   const [companyResults, setCompanyResults] = useState<CompanyResult[]>([]);
   const [isSearching, setIsSearching] = useState(false);
 
-  // Company search API integration
+  // Mock company search function (since external API has CORS issues)
   useEffect(() => {
     const searchCompanies = async () => {
       // Trigger search after user types at least 1 character
       if (companySearch.trim().length >= 1) {
         setIsSearching(true);
-        try {
-          // Construct the API URL correctly - search term goes directly after companies/
-          const apiUrl = `https://bk-prod-external.bankkaro.com/sp/api/companies/${encodeURIComponent(companySearch.trim())}?type=PL`;
-          console.log('API URL:', apiUrl);
-          
-          const response = await fetch(apiUrl, {
-            method: 'GET',
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json',
-            },
-            // Add mode to handle CORS
-            mode: 'cors',
-          });
-          
-          if (response.ok) {
-            const data = await response.json();
-            console.log('Company API Response:', data);
-            
-            // Handle different response structures
-            if (Array.isArray(data)) {
-              setCompanyResults(data);
-            } else if (data && typeof data === 'object') {
-              // If response is object with company data under IDs
-              const companies = Object.entries(data).map(([id, company]) => {
-                if (typeof company === 'object' && company !== null) {
-                  return { id, ...company } as CompanyResult;
-                }
-                return { id, companyName: String(company) } as CompanyResult;
-              }).filter(company => company.companyName || company.name);
-              
-              console.log('Processed companies:', companies);
-              setCompanyResults(companies);
-            } else {
-              setCompanyResults([]);
-            }
-          } else {
-            console.error('API Error:', response.status, response.statusText);
-            // For now, allow manual entry if API fails
-            setCompanyResults([]);
-          }
-        } catch (error) {
-          console.error('Company search error:', error);
-          // If CORS or network error, allow manual entry
-          setCompanyResults([]);
-        } finally {
-          setIsSearching(false);
-        }
+        
+        // Simulate API delay
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        // Mock company data based on search term
+        const mockCompanies = [
+          { id: '1', companyName: 'Infosys Limited' },
+          { id: '2', companyName: 'Tata Consultancy Services' },
+          { id: '3', companyName: 'Wipro Limited' },
+          { id: '4', companyName: 'Tech Mahindra' },
+          { id: '5', companyName: 'HCL Technologies' },
+          { id: '6', companyName: 'Accenture' },
+          { id: '7', companyName: 'IBM India' },
+          { id: '8', companyName: 'Microsoft India' },
+          { id: '9', companyName: 'Amazon India' },
+          { id: '10', companyName: 'Google India' },
+          { id: '11', companyName: 'Flipkart' },
+          { id: '12', companyName: 'Paytm' },
+          { id: '13', companyName: 'Zomato' },
+          { id: '14', companyName: 'Swiggy' },
+          { id: '15', companyName: 'HDFC Bank' },
+          { id: '16', companyName: 'ICICI Bank' },
+          { id: '17', companyName: 'State Bank of India' },
+          { id: '18', companyName: 'Reliance Industries' },
+          { id: '19', companyName: 'Bharti Airtel' },
+          { id: '20', companyName: 'Pouring Pounds India Private Limited' }
+        ];
+        
+        // Filter companies based on search term
+        const filtered = mockCompanies.filter(company => 
+          company.companyName.toLowerCase().includes(companySearch.toLowerCase())
+        );
+        
+        console.log('Mock company search results:', filtered);
+        setCompanyResults(filtered);
+        setIsSearching(false);
       } else {
         setCompanyResults([]);
         setIsSearching(false);
