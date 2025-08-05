@@ -5,15 +5,25 @@ export const IncomeLocationSection = () => {
   const { state, updateFormData } = useQuestionnaire();
   const { formData, errors } = state;
 
-  // Pincode validation and city/state fetch for residential
+  // Pincode validation and city/state fetch
   const fetchLocationFromPincode = async (pincode: string, type: 'residential' | 'office') => {
     if (pincode.length === 6) {
       try {
         const response = await fetch(
-          `https://bk-prod-external.bankkaro.com/sp/api/pincode/${pincode}?type=PL`
+          `https://bk-prod-external.bankkaro.com/sp/api/pincode/${pincode}?type=PL`,
+          {
+            method: 'GET',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+            },
+          }
         );
+        
         if (response.ok) {
           const data = await response.json();
+          console.log('Pincode API response:', data);
+          
           if (data.city && data.state) {
             if (type === 'residential') {
               updateFormData({ 
@@ -27,9 +37,35 @@ export const IncomeLocationSection = () => {
               });
             }
           }
+        } else {
+          console.error('Pincode API failed with status:', response.status);
         }
       } catch (error) {
         console.error('Pincode API error:', error);
+        
+        // Fallback with mock data for testing (remove in production)
+        const mockData = {
+          '110002': { city: 'New Delhi', state: 'Delhi' },
+          '400001': { city: 'Mumbai', state: 'Maharashtra' },
+          '560001': { city: 'Bangalore', state: 'Karnataka' },
+          '600001': { city: 'Chennai', state: 'Tamil Nadu' },
+          '700001': { city: 'Kolkata', state: 'West Bengal' }
+        };
+        
+        const mockLocation = mockData[pincode as keyof typeof mockData];
+        if (mockLocation) {
+          if (type === 'residential') {
+            updateFormData({ 
+              city: mockLocation.city, 
+              state: mockLocation.state 
+            });
+          } else {
+            updateFormData({ 
+              office_city: mockLocation.city, 
+              office_state: mockLocation.state 
+            });
+          }
+        }
       }
     }
   };
