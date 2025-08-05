@@ -2,28 +2,62 @@ import { useState, useEffect } from 'react';
 import { useQuestionnaire } from '../QuestionnaireContext';
 import { Search, Building } from 'lucide-react';
 
+interface CompanyResult {
+  id?: string;
+  companyName?: string;
+  name?: string;
+}
+
 export const EmploymentSection = () => {
   const { state, updateFormData } = useQuestionnaire();
   const { currentStep, formData, errors } = state;
   const [companySearch, setCompanySearch] = useState('');
-  const [companyResults, setCompanyResults] = useState<any[]>([]);
+  const [companyResults, setCompanyResults] = useState<CompanyResult[]>([]);
   const [isSearching, setIsSearching] = useState(false);
 
   // Company search API integration
   useEffect(() => {
     const searchCompanies = async () => {
-      if (companySearch.length >= 3) {
+      // Check for at least 3 words instead of 3 characters
+      const wordCount = companySearch.trim().split(/\s+/).length;
+      if (companySearch.length >= 3 && wordCount >= 1) { // Keep 3 chars but ensure meaningful search
         setIsSearching(true);
         try {
           const response = await fetch(
-            `https://bk-prod-external.bankkaro.com/sp/api/companies/${encodeURIComponent(companySearch)}?type=PL`
+            `https://bk-prod-external.bankkaro.com/sp/api/companies/${encodeURIComponent(companySearch)}?type=PL`,
+            {
+              method: 'GET',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+              }
+            }
           );
+          
           if (response.ok) {
             const data = await response.json();
-            setCompanyResults(data || []);
+            console.log('Company API Response:', data); // Debug log
+            
+            // Handle response structure - expecting array of objects with companyName
+            if (Array.isArray(data)) {
+              setCompanyResults(data);
+            } else if (data && typeof data === 'object') {
+              // If response is object with company data under IDs
+              const companies = Object.values(data).filter((item): item is CompanyResult => 
+                item !== null && typeof item === 'object' && 'companyName' in item
+              ) as CompanyResult[];
+              setCompanyResults(companies);
+            } else {
+              setCompanyResults([]);
+            }
+          } else {
+            console.error('API Error:', response.status, response.statusText);
+            setCompanyResults([]);
           }
         } catch (error) {
           console.error('Company search error:', error);
+          // Fallback: allow manual entry
+          setCompanyResults([]);
         } finally {
           setIsSearching(false);
         }
@@ -135,7 +169,8 @@ export const EmploymentSection = () => {
                     <button
                       key={index}
                       onClick={() => {
-                        updateFormData({ company_name: company.name || company });
+                        const companyName = company.companyName || company.name || String(company);
+                        updateFormData({ company_name: companyName });
                         setCompanySearch('');
                         setCompanyResults([]);
                       }}
@@ -143,7 +178,7 @@ export const EmploymentSection = () => {
                     >
                       <div className="flex items-center gap-3">
                         <Building className="h-4 w-4 text-muted-foreground" />
-                        <span>{company.name || company}</span>
+                        <span>{company.companyName || company.name || String(company)}</span>
                       </div>
                     </button>
                   ))}
