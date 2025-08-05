@@ -1,5 +1,5 @@
 import { useQuestionnaire } from '../QuestionnaireContext';
-import { MapPin, IndianRupee, CreditCard, Banknote, Smartphone } from 'lucide-react';
+import { MapPin, IndianRupee, CreditCard, Banknote, Smartphone, CheckCircle } from 'lucide-react';
 
 export const IncomeLocationSection = () => {
   const { state, updateFormData } = useQuestionnaire();
@@ -269,13 +269,17 @@ export const IncomeLocationSection = () => {
 
   return (
     <div className="space-y-8">
-      <div className="text-center mb-8">
+      <div className="text-center mb-8 animate-fade-in">
         <h2 className="text-3xl font-poppins font-semibold text-foreground mb-3">
-          Income & Location Details
+          Final Step - Income & Location
         </h2>
         <p className="text-muted-foreground text-lg">
-          Just a few more details to complete your profile
+          Last details to unlock your personalized loan offers
         </p>
+        <div className="flex items-center justify-center gap-2 mt-3 text-sm text-success animate-pulse">
+          <CheckCircle className="h-4 w-4" />
+          <span>You're 30 seconds away from instant pre-approval!</span>
+        </div>
       </div>
 
       <div className="space-y-6 max-w-2xl mx-auto">

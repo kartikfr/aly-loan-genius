@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from 'react';
 import { useQuestionnaire } from '../QuestionnaireContext';
-import { Search, Building } from 'lucide-react';
+import { Search, Building, CheckCircle } from 'lucide-react';
 
 interface CompanyResult {
   id?: string;
@@ -71,13 +71,17 @@ export const EmploymentSection = () => {
 
   return (
     <div className="space-y-8">
-      <div className="text-center mb-8">
+      <div className="text-center mb-8 animate-fade-in">
         <h2 className="text-3xl font-poppins font-semibold text-foreground mb-3">
-          Tell us about your work
+          Employment Details
         </h2>
         <p className="text-muted-foreground text-lg">
-          This helps us find the right loan products for you
+          Your employment helps us get you better rates and faster approval
         </p>
+        <div className="flex items-center justify-center gap-2 mt-3 text-sm text-success animate-pulse">
+          <CheckCircle className="h-4 w-4" />
+          <span>Stable employment = Lower interest rates</span>
+        </div>
       </div>
 
       <div className="space-y-6 max-w-2xl mx-auto">

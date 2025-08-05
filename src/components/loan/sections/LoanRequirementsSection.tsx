@@ -1,5 +1,5 @@
 import { useQuestionnaire } from '../QuestionnaireContext';
-import { Clock, Zap, Calendar, CreditCard, X } from 'lucide-react';
+import { Clock, Zap, Calendar, CreditCard, X, TrendingUp } from 'lucide-react';
 
 export const LoanRequirementsSection = () => {
   const { state, updateFormData } = useQuestionnaire();
@@ -7,13 +7,17 @@ export const LoanRequirementsSection = () => {
 
   return (
     <div className="space-y-8">
-      <div className="text-center mb-8">
+      <div className="text-center mb-8 animate-fade-in">
         <h2 className="text-3xl font-poppins font-semibold text-foreground mb-3">
-          What are your loan requirements?
+          What's Your Ideal Loan?
         </h2>
         <p className="text-muted-foreground text-lg">
-          Help us find the perfect loan options for you
+          Help us match you with the perfect loan offers from top lenders
         </p>
+        <div className="flex items-center justify-center gap-2 mt-3 text-sm text-primary animate-pulse">
+          <TrendingUp className="h-4 w-4" />
+          <span>Compare rates from 15+ verified lenders instantly</span>
+        </div>
       </div>
 
       <div className="space-y-6 max-w-2xl mx-auto">

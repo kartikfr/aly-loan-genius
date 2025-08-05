@@ -23,12 +23,12 @@ export const QuestionnaireFlow = () => {
           <div
             key={section.id}
             className={`
-              flex-none w-full min-h-[600px] snap-center
+              flex-none w-full min-h-[600px] snap-center animate-fade-in
               ${index !== sections.length - 1 ? 'mr-8' : ''}
               ${state.currentStep === section.id ? 'block' : 'hidden'}
             `}
           >
-            <div className="form-card h-full">
+            <div className="form-card h-full animate-scale-in">
               {section.component}
             </div>
           </div>

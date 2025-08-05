@@ -104,12 +104,22 @@ export const QuestionnaireProvider: React.FC<{ children: ReactNode }> = ({ child
   const nextStep = () => {
     if (validateCurrentStep() && state.currentStep < getTotalSteps()) {
       dispatch({ type: 'SET_STEP', payload: state.currentStep + 1 });
+      // Smooth scroll to top with animation
+      window.scrollTo({ 
+        top: 0, 
+        behavior: 'smooth' 
+      });
     }
   };
 
   const prevStep = () => {
     if (state.currentStep > 1) {
       dispatch({ type: 'SET_STEP', payload: state.currentStep - 1 });
+      // Smooth scroll to top with animation
+      window.scrollTo({ 
+        top: 0, 
+        behavior: 'smooth' 
+      });
     }
   };
 

@@ -1,4 +1,5 @@
 import { useQuestionnaire } from '../QuestionnaireContext';
+import { Shield } from 'lucide-react';
 
 export const PersonalInfoSection = () => {
   const { state, updateFormData } = useQuestionnaire();
@@ -6,13 +7,17 @@ export const PersonalInfoSection = () => {
 
   return (
     <div className="space-y-8">
-      <div className="text-center mb-8">
+      <div className="text-center mb-8 animate-fade-in">
         <h2 className="text-3xl font-poppins font-semibold text-foreground mb-3">
-          Tell us about yourself
+          Let's Get You Pre-Approved 
         </h2>
         <p className="text-muted-foreground text-lg">
-          We need some basic information to get started
+          Secure & confidential - Start with your basic details
         </p>
+        <div className="flex items-center justify-center gap-2 mt-3 text-sm text-success animate-pulse">
+          <Shield className="h-4 w-4" />
+          <span>Bank-grade security • No impact on credit score</span>
+        </div>
       </div>
 
       <div className="space-y-6 max-w-2xl mx-auto">
