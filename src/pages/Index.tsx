@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, Shield, CheckCircle, Clock, Star, Users, Award } from 'lucide-react';
+import { ArrowRight, Shield, Check, Clock, Star, Users, Award } from 'lucide-react';
 
 const Index = () => {
   return (
@@ -14,7 +14,7 @@ const Index = () => {
               <span>256-bit SSL Encrypted</span>
             </div>
             <div className="trust-badge">
-              <CheckCircle className="h-4 w-4" />
+              <Check className="h-4 w-4" />
               <span>No Credit Score Impact</span>
             </div>
             <div className="trust-badge">

@@ -1,5 +1,5 @@
 import { useQuestionnaire } from '../QuestionnaireContext';
-import { MapPin, IndianRupee, CreditCard, Banknote, Smartphone, CheckCircle } from 'lucide-react';
+import { MapPin, IndianRupee, CreditCard, Banknote, Smartphone, Check } from 'lucide-react';
 
 export const IncomeLocationSection = () => {
   const { state, updateFormData } = useQuestionnaire();
@@ -206,59 +206,49 @@ export const IncomeLocationSection = () => {
         return;
       }
 
-      // If not in mock data, try CORS proxy
+      // If not in mock data, try a simple fallback API
       try {
-        // Using a public CORS proxy service
-        const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(`https://bk-prod-external.bankkaro.com/sp/api/pincode/${pincode}?type=PL`)}`;
-        
-        const response = await fetch(proxyUrl, {
+        // Try a different public pincode API
+        const response = await fetch(`https://api.postalpincode.in/pincode/${pincode}`, {
           method: 'GET',
           headers: {
             'Accept': 'application/json',
-            'Content-Type': 'application/json',
           },
         });
         
         if (response.ok) {
           const apiResponse = await response.json();
-          console.log('Pincode API response via proxy:', apiResponse);
+          console.log('Pincode API response:', apiResponse);
           
-          // Handle the specific API response structure
-          if (apiResponse.status === 'success' && apiResponse.data && Array.isArray(apiResponse.data) && apiResponse.data.length > 0) {
-            const locationData = apiResponse.data[0];
-            if (locationData.city && locationData.state) {
-              if (type === 'residential') {
-                updateFormData({ 
-                  city: locationData.city, 
-                  state: locationData.state 
-                });
-              } else {
-                updateFormData({ 
-                  office_city: locationData.city, 
-                  office_state: locationData.state 
-                });
+          // Handle the postalpincode.in API response structure
+          if (Array.isArray(apiResponse) && apiResponse.length > 0 && apiResponse[0].Status === 'Success') {
+            const postOffices = apiResponse[0].PostOffice;
+            if (postOffices && postOffices.length > 0) {
+              const locationData = postOffices[0];
+              if (locationData.District && locationData.State) {
+                const city = locationData.District;
+                const state = locationData.State;
+                
+                if (type === 'residential') {
+                  updateFormData({ city, state });
+                } else {
+                  updateFormData({ 
+                    office_city: city, 
+                    office_state: state 
+                  });
+                }
+                return;
               }
-              return;
             }
           }
         }
       } catch (error) {
-        console.error('Pincode API error (proxy failed):', error);
+        console.error('Pincode API error:', error);
       }
 
-      // Final fallback - show error message
+      // Final fallback - just clear the unknown values, don't set them
       console.warn(`Pincode ${pincode} not found in mock data and API failed`);
-      if (type === 'residential') {
-        updateFormData({ 
-          city: 'Unknown', 
-          state: 'Unknown' 
-        });
-      } else {
-        updateFormData({ 
-          office_city: 'Unknown', 
-          office_state: 'Unknown' 
-        });
-      }
+      // Don't set "Unknown" values, just leave them empty for user to fill manually
     }
   };
 
@@ -277,7 +267,7 @@ export const IncomeLocationSection = () => {
           Last details to unlock your personalized loan offers
         </p>
         <div className="flex items-center justify-center gap-2 mt-3 text-sm text-success animate-pulse">
-          <CheckCircle className="h-4 w-4" />
+          <Check className="h-4 w-4" />
           <span>You're 30 seconds away from instant pre-approval!</span>
         </div>
       </div>

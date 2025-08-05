@@ -1,5 +1,5 @@
 import { useQuestionnaire } from './QuestionnaireContext';
-import { CheckCircle, Shield, Clock } from 'lucide-react';
+import { Check, Shield, Clock } from 'lucide-react';
 
 export const ProgressHeader = () => {
   const { state, getProgressPercentage } = useQuestionnaire();
@@ -30,7 +30,7 @@ export const ProgressHeader = () => {
             <span>256-bit SSL Encrypted</span>
           </div>
           <div className="flex items-center gap-2 text-sm text-success">
-            <CheckCircle className="h-4 w-4" />
+            <Check className="h-4 w-4" />
             <span>No Credit Score Impact</span>
           </div>
           <div className="flex items-center gap-2 text-sm text-success">
@@ -71,7 +71,7 @@ export const ProgressHeader = () => {
                   }
                 `}>
                   {isCompleted ? (
-                    <CheckCircle className="h-4 w-4" />
+                    <Check className="h-4 w-4" />
                   ) : (
                     step.id
                   )}
