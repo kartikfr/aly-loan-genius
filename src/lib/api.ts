@@ -401,59 +401,73 @@ class ApiService {
           
           clearTimeout(timeoutId);
 
-        console.log(`Submit lead details response status (attempt ${attempt}):`, response.status);
+          console.log(`Submit lead details response status (attempt ${attempt}):`, response.status);
 
-        if (!response.ok) {
-          const errorText = await response.text();
-          console.error(`Error response (attempt ${attempt}):`, errorText);
-          
-          // Handle specific error codes
-          if (response.status === 502) {
-            throw new Error(`Server temporarily unavailable (502). Please try again in a few moments.`);
-          } else if (response.status === 503) {
-            throw new Error(`Service temporarily unavailable (503). Please try again later.`);
-          } else if (response.status === 504) {
-            throw new Error(`Request timeout (504). Please try again.`);
-          } else {
-            throw new Error(`Failed to submit lead details: ${response.status} ${response.statusText}`);
+          if (!response.ok) {
+            const errorText = await response.text();
+            console.error(`Error response (attempt ${attempt}):`, errorText);
+            
+            // Handle specific error codes
+            if (response.status === 502) {
+              throw new Error(`Server temporarily unavailable (502). Please try again in a few moments.`);
+            } else if (response.status === 503) {
+              throw new Error(`Service temporarily unavailable (503). Please try again later.`);
+            } else if (response.status === 504) {
+              throw new Error(`Request timeout (504). Please try again.`);
+            } else {
+              throw new Error(`Failed to submit lead details: ${response.status} ${response.statusText}`);
+            }
           }
-        }
 
-        const data: LeadDetailsCompleteResponse = await response.json();
-        console.log('Submit lead details response:', data);
-        
-        if (data.status === 'success') {
-          console.log('✅ Lead details submitted successfully');
-          return data;
-        } else {
-          throw new Error(data.message || 'Failed to submit lead details');
+          const data: LeadDetailsCompleteResponse = await response.json();
+          console.log('Submit lead details response:', data);
+          
+          if (data.status === 'success') {
+            console.log('✅ Lead details submitted successfully');
+            return data;
+          } else {
+            throw new Error(data.message || 'Failed to submit lead details');
+          }
+        } catch (error) {
+          clearTimeout(timeoutId);
+          
+          // Handle timeout specifically
+          if (error instanceof Error && error.name === 'AbortError') {
+            lastError = new Error('Request timeout. Please try again.');
+          } else {
+            lastError = error instanceof Error ? error : new Error('Unknown error occurred');
+          }
+          
+          console.error(`❌ Error submitting lead details (attempt ${attempt}):`, lastError);
+          
+          // If this is the last attempt, throw the error
+          if (attempt === maxRetries) {
+            break;
+          }
+          
+          // Wait before retrying (exponential backoff)
+          const delay = Math.min(1000 * Math.pow(2, attempt - 1), 5000);
+          console.log(`⏳ Retrying in ${delay}ms...`);
+          await new Promise(resolve => setTimeout(resolve, delay));
         }
-               } catch (error) {
-           clearTimeout(timeoutId);
-           
-           // Handle timeout specifically
-           if (error instanceof Error && error.name === 'AbortError') {
-             lastError = new Error('Request timeout. Please try again.');
-           } else {
-             lastError = error instanceof Error ? error : new Error('Unknown error occurred');
-           }
-           
-           console.error(`❌ Error submitting lead details (attempt ${attempt}):`, lastError);
-           
-           // If this is the last attempt, throw the error
-           if (attempt === maxRetries) {
-             break;
-           }
-           
-           // Wait before retrying (exponential backoff)
-           const delay = Math.min(1000 * Math.pow(2, attempt - 1), 5000);
-           console.log(`⏳ Retrying in ${delay}ms...`);
-           await new Promise(resolve => setTimeout(resolve, delay));
-         }
+      } catch (error) {
+        lastError = error instanceof Error ? error : new Error('Unknown error occurred');
+        console.error(`❌ Error submitting lead details (attempt ${attempt}):`, lastError);
+        
+        // If this is the last attempt, break out of the loop
+        if (attempt === maxRetries) {
+          break;
+        }
+        
+        // Wait before retrying (exponential backoff)
+        const delay = Math.min(1000 * Math.pow(2, attempt - 1), 5000);
+        console.log(`⏳ Retrying in ${delay}ms...`);
+        await new Promise(resolve => setTimeout(resolve, delay));
+      }
     }
     
     // If we get here, all retries failed
-    throw lastError || new Error('Failed to submit lead details after multiple attempts');
+    throw lastError ?? new Error('Failed to submit lead details after multiple attempts');
   }
 
   // Company search API using real BankKaro API
