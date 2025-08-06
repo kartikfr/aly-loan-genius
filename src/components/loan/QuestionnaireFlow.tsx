@@ -6,7 +6,8 @@ import { IncomeLocationSection } from './sections/IncomeLocationSection';
 import { NavigationButtons } from './NavigationButtons';
 
 export const QuestionnaireFlow = () => {
-  const { state } = useQuestionnaire();
+  const context = useQuestionnaire();
+  const { state } = context;
 
   const sections = [
     { id: 1, component: <PersonalInfoSection />, title: 'Personal Info' },

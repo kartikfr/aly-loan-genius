@@ -2,7 +2,8 @@ import { useQuestionnaire } from './QuestionnaireContext';
 import { Check, Shield, Clock } from 'lucide-react';
 
 export const ProgressHeader = () => {
-  const { state, getProgressPercentage } = useQuestionnaire();
+  const context = useQuestionnaire();
+  const { state, getProgressPercentage } = context;
   
   const steps = [
     { id: 1, name: 'Basic Details', range: [1, 4] },

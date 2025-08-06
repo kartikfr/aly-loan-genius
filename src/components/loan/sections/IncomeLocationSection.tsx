@@ -1,274 +1,48 @@
 import { useQuestionnaire } from '../QuestionnaireContext';
-import { MapPin, IndianRupee, CreditCard, Banknote, Smartphone, Check } from 'lucide-react';
+import { PincodeSearch } from '@/components/common/PincodeSearch';
+import { IndianRupee, CreditCard, Banknote, Smartphone, Check } from 'lucide-react';
 
 export const IncomeLocationSection = () => {
-  const { state, updateFormData } = useQuestionnaire();
+  const context = useQuestionnaire();
+const { state, updateFormData } = context;
   const { formData, errors } = state;
 
-  // Comprehensive mock pincode data for testing
-  const mockPincodeData: Record<string, { city: string; state: string }> = {
-    // Delhi
-    '110001': { city: 'New Delhi', state: 'Delhi' },
-    '110002': { city: 'New Delhi', state: 'Delhi' },
-    '110003': { city: 'New Delhi', state: 'Delhi' },
-    '110005': { city: 'New Delhi', state: 'Delhi' },
-    '110006': { city: 'New Delhi', state: 'Delhi' },
-    '110007': { city: 'New Delhi', state: 'Delhi' },
-    '110008': { city: 'New Delhi', state: 'Delhi' },
-    '110009': { city: 'New Delhi', state: 'Delhi' },
-    '110010': { city: 'New Delhi', state: 'Delhi' },
-    '110011': { city: 'New Delhi', state: 'Delhi' },
-    '110012': { city: 'New Delhi', state: 'Delhi' },
-    '110013': { city: 'New Delhi', state: 'Delhi' },
-    '110014': { city: 'New Delhi', state: 'Delhi' },
-    '110015': { city: 'New Delhi', state: 'Delhi' },
-    '110016': { city: 'New Delhi', state: 'Delhi' },
-    '110017': { city: 'New Delhi', state: 'Delhi' },
-    '110018': { city: 'New Delhi', state: 'Delhi' },
-    '110019': { city: 'New Delhi', state: 'Delhi' },
-    '110020': { city: 'New Delhi', state: 'Delhi' },
-    '110021': { city: 'New Delhi', state: 'Delhi' },
-    '110022': { city: 'New Delhi', state: 'Delhi' },
-    '110023': { city: 'New Delhi', state: 'Delhi' },
-    '110024': { city: 'New Delhi', state: 'Delhi' },
-    '110025': { city: 'New Delhi', state: 'Delhi' },
-    '110026': { city: 'New Delhi', state: 'Delhi' },
-    '110027': { city: 'New Delhi', state: 'Delhi' },
-    '110028': { city: 'New Delhi', state: 'Delhi' },
-    '110029': { city: 'New Delhi', state: 'Delhi' },
-    '110030': { city: 'New Delhi', state: 'Delhi' },
-    
-    // Mumbai
-    '400001': { city: 'Mumbai', state: 'Maharashtra' },
-    '400002': { city: 'Mumbai', state: 'Maharashtra' },
-    '400003': { city: 'Mumbai', state: 'Maharashtra' },
-    '400004': { city: 'Mumbai', state: 'Maharashtra' },
-    '400005': { city: 'Mumbai', state: 'Maharashtra' },
-    '400006': { city: 'Mumbai', state: 'Maharashtra' },
-    '400007': { city: 'Mumbai', state: 'Maharashtra' },
-    '400008': { city: 'Mumbai', state: 'Maharashtra' },
-    '400009': { city: 'Mumbai', state: 'Maharashtra' },
-    '400010': { city: 'Mumbai', state: 'Maharashtra' },
-    '400011': { city: 'Mumbai', state: 'Maharashtra' },
-    '400012': { city: 'Mumbai', state: 'Maharashtra' },
-    '400013': { city: 'Mumbai', state: 'Maharashtra' },
-    '400014': { city: 'Mumbai', state: 'Maharashtra' },
-    '400015': { city: 'Mumbai', state: 'Maharashtra' },
-    '400016': { city: 'Mumbai', state: 'Maharashtra' },
-    '400017': { city: 'Mumbai', state: 'Maharashtra' },
-    '400018': { city: 'Mumbai', state: 'Maharashtra' },
-    '400019': { city: 'Mumbai', state: 'Maharashtra' },
-    '400020': { city: 'Mumbai', state: 'Maharashtra' },
-    '400021': { city: 'Mumbai', state: 'Maharashtra' },
-    '400022': { city: 'Mumbai', state: 'Maharashtra' },
-    '400023': { city: 'Mumbai', state: 'Maharashtra' },
-    '400024': { city: 'Mumbai', state: 'Maharashtra' },
-    '400025': { city: 'Mumbai', state: 'Maharashtra' },
-    '400026': { city: 'Mumbai', state: 'Maharashtra' },
-    '400027': { city: 'Mumbai', state: 'Maharashtra' },
-    '400028': { city: 'Mumbai', state: 'Maharashtra' },
-    '400029': { city: 'Mumbai', state: 'Maharashtra' },
-    '400030': { city: 'Mumbai', state: 'Maharashtra' },
-    
-    // Bangalore
-    '560001': { city: 'Bangalore', state: 'Karnataka' },
-    '560002': { city: 'Bangalore', state: 'Karnataka' },
-    '560003': { city: 'Bangalore', state: 'Karnataka' },
-    '560004': { city: 'Bangalore', state: 'Karnataka' },
-    '560005': { city: 'Bangalore', state: 'Karnataka' },
-    '560006': { city: 'Bangalore', state: 'Karnataka' },
-    '560007': { city: 'Bangalore', state: 'Karnataka' },
-    '560008': { city: 'Bangalore', state: 'Karnataka' },
-    '560009': { city: 'Bangalore', state: 'Karnataka' },
-    '560010': { city: 'Bangalore', state: 'Karnataka' },
-    '560011': { city: 'Bangalore', state: 'Karnataka' },
-    '560012': { city: 'Bangalore', state: 'Karnataka' },
-    '560013': { city: 'Bangalore', state: 'Karnataka' },
-    '560014': { city: 'Bangalore', state: 'Karnataka' },
-    '560015': { city: 'Bangalore', state: 'Karnataka' },
-    '560016': { city: 'Bangalore', state: 'Karnataka' },
-    '560017': { city: 'Bangalore', state: 'Karnataka' },
-    '560018': { city: 'Bangalore', state: 'Karnataka' },
-    '560019': { city: 'Bangalore', state: 'Karnataka' },
-    '560020': { city: 'Bangalore', state: 'Karnataka' },
-    
-    // Chennai
-    '600001': { city: 'Chennai', state: 'Tamil Nadu' },
-    '600002': { city: 'Chennai', state: 'Tamil Nadu' },
-    '600003': { city: 'Chennai', state: 'Tamil Nadu' },
-    '600004': { city: 'Chennai', state: 'Tamil Nadu' },
-    '600005': { city: 'Chennai', state: 'Tamil Nadu' },
-    '600006': { city: 'Chennai', state: 'Tamil Nadu' },
-    '600007': { city: 'Chennai', state: 'Tamil Nadu' },
-    '600008': { city: 'Chennai', state: 'Tamil Nadu' },
-    '600009': { city: 'Chennai', state: 'Tamil Nadu' },
-    '600010': { city: 'Chennai', state: 'Tamil Nadu' },
-    '600011': { city: 'Chennai', state: 'Tamil Nadu' },
-    '600012': { city: 'Chennai', state: 'Tamil Nadu' },
-    '600013': { city: 'Chennai', state: 'Tamil Nadu' },
-    '600014': { city: 'Chennai', state: 'Tamil Nadu' },
-    '600015': { city: 'Chennai', state: 'Tamil Nadu' },
-    '600016': { city: 'Chennai', state: 'Tamil Nadu' },
-    '600017': { city: 'Chennai', state: 'Tamil Nadu' },
-    '600018': { city: 'Chennai', state: 'Tamil Nadu' },
-    '600019': { city: 'Chennai', state: 'Tamil Nadu' },
-    '600020': { city: 'Chennai', state: 'Tamil Nadu' },
-    
-    // Kolkata
-    '700001': { city: 'Kolkata', state: 'West Bengal' },
-    '700002': { city: 'Kolkata', state: 'West Bengal' },
-    '700003': { city: 'Kolkata', state: 'West Bengal' },
-    '700004': { city: 'Kolkata', state: 'West Bengal' },
-    '700005': { city: 'Kolkata', state: 'West Bengal' },
-    '700006': { city: 'Kolkata', state: 'West Bengal' },
-    '700007': { city: 'Kolkata', state: 'West Bengal' },
-    '700008': { city: 'Kolkata', state: 'West Bengal' },
-    '700009': { city: 'Kolkata', state: 'West Bengal' },
-    '700010': { city: 'Kolkata', state: 'West Bengal' },
-    '700011': { city: 'Kolkata', state: 'West Bengal' },
-    '700012': { city: 'Kolkata', state: 'West Bengal' },
-    '700013': { city: 'Kolkata', state: 'West Bengal' },
-    '700014': { city: 'Kolkata', state: 'West Bengal' },
-    '700015': { city: 'Kolkata', state: 'West Bengal' },
-    '700016': { city: 'Kolkata', state: 'West Bengal' },
-    '700017': { city: 'Kolkata', state: 'West Bengal' },
-    '700018': { city: 'Kolkata', state: 'West Bengal' },
-    '700019': { city: 'Kolkata', state: 'West Bengal' },
-    '700020': { city: 'Kolkata', state: 'West Bengal' },
-    
-    // Hyderabad
-    '500001': { city: 'Hyderabad', state: 'Telangana' },
-    '500002': { city: 'Hyderabad', state: 'Telangana' },
-    '500003': { city: 'Hyderabad', state: 'Telangana' },
-    '500004': { city: 'Hyderabad', state: 'Telangana' },
-    '500005': { city: 'Hyderabad', state: 'Telangana' },
-    '500006': { city: 'Hyderabad', state: 'Telangana' },
-    '500007': { city: 'Hyderabad', state: 'Telangana' },
-    '500008': { city: 'Hyderabad', state: 'Telangana' },
-    '500009': { city: 'Hyderabad', state: 'Telangana' },
-    '500010': { city: 'Hyderabad', state: 'Telangana' },
-    
-    // Pune
-    '411001': { city: 'Pune', state: 'Maharashtra' },
-    '411002': { city: 'Pune', state: 'Maharashtra' },
-    '411003': { city: 'Pune', state: 'Maharashtra' },
-    '411004': { city: 'Pune', state: 'Maharashtra' },
-    '411005': { city: 'Pune', state: 'Maharashtra' },
-    '411006': { city: 'Pune', state: 'Maharashtra' },
-    '411007': { city: 'Pune', state: 'Maharashtra' },
-    '411008': { city: 'Pune', state: 'Maharashtra' },
-    '411009': { city: 'Pune', state: 'Maharashtra' },
-    '411010': { city: 'Pune', state: 'Maharashtra' },
-    
-    // Ahmedabad
-    '380001': { city: 'Ahmedabad', state: 'Gujarat' },
-    '380002': { city: 'Ahmedabad', state: 'Gujarat' },
-    '380003': { city: 'Ahmedabad', state: 'Gujarat' },
-    '380004': { city: 'Ahmedabad', state: 'Gujarat' },
-    '380005': { city: 'Ahmedabad', state: 'Gujarat' },
-    '380006': { city: 'Ahmedabad', state: 'Gujarat' },
-    '380007': { city: 'Ahmedabad', state: 'Gujarat' },
-    '380008': { city: 'Ahmedabad', state: 'Gujarat' },
-    '380009': { city: 'Ahmedabad', state: 'Gujarat' },
-    '380010': { city: 'Ahmedabad', state: 'Gujarat' },
-    
-    // Sample from your test case
-    '244715': { city: 'Rampur', state: 'Uttar Pradesh' },
-    
-    // Other common pincodes
-    '201301': { city: 'Noida', state: 'Uttar Pradesh' },
-    '122001': { city: 'Gurgaon', state: 'Haryana' },
-    '160001': { city: 'Chandigarh', state: 'Chandigarh' },
-    '302001': { city: 'Jaipur', state: 'Rajasthan' },
-    '482001': { city: 'Jabalpur', state: 'Madhya Pradesh' },
-    '751001': { city: 'Bhubaneswar', state: 'Odisha' },
-    '781001': { city: 'Guwahati', state: 'Assam' },
+  const handleResidentialPincodeChange = (pincode: string, city: string, state: string) => {
+    updateFormData({ 
+      pincode, 
+      city, 
+      state 
+    });
   };
 
-  // Pincode validation and city/state fetch with CORS proxy fallback
-  const fetchLocationFromPincode = async (pincode: string, type: 'residential' | 'office') => {
-    if (pincode.length === 6) {
-      // First try mock data (for demo purposes)
-      const mockLocation = mockPincodeData[pincode];
-      if (mockLocation) {
-        console.log(`Using mock data for pincode ${pincode}:`, mockLocation);
-        if (type === 'residential') {
+  const handleOfficePincodeChange = (pincode: string, city: string, state: string) => {
           updateFormData({ 
-            city: mockLocation.city, 
-            state: mockLocation.state 
-          });
-        } else {
-          updateFormData({ 
-            office_city: mockLocation.city, 
-            office_state: mockLocation.state 
-          });
-        }
-        return;
-      }
-
-      // If not in mock data, try a simple fallback API
-      try {
-        // Try a different public pincode API
-        const response = await fetch(`https://api.postalpincode.in/pincode/${pincode}`, {
-          method: 'GET',
-          headers: {
-            'Accept': 'application/json',
-          },
-        });
-        
-        if (response.ok) {
-          const apiResponse = await response.json();
-          console.log('Pincode API response:', apiResponse);
-          
-          // Handle the postalpincode.in API response structure
-          if (Array.isArray(apiResponse) && apiResponse.length > 0 && apiResponse[0].Status === 'Success') {
-            const postOffices = apiResponse[0].PostOffice;
-            if (postOffices && postOffices.length > 0) {
-              const locationData = postOffices[0];
-              if (locationData.District && locationData.State) {
-                const city = locationData.District;
-                const state = locationData.State;
-                
-                if (type === 'residential') {
-                  updateFormData({ city, state });
-                } else {
-                  updateFormData({ 
+      office_pincode: pincode, 
                     office_city: city, 
                     office_state: state 
                   });
-                }
-                return;
-              }
-            }
-          }
-        }
-      } catch (error) {
-        console.error('Pincode API error:', error);
-      }
-
-      // Final fallback - just clear the unknown values, don't set them
-      console.warn(`Pincode ${pincode} not found in mock data and API failed`);
-      // Don't set "Unknown" values, just leave them empty for user to fill manually
-    }
   };
 
-  const formatCurrency = (value: string) => {
-    const num = value.replace(/[^\d]/g, '');
-    return num ? parseInt(num).toLocaleString('en-IN') : '';
+  const handleSameAsResidential = () => {
+    updateFormData({
+      office_pincode: formData.pincode,
+      office_city: formData.city,
+      office_state: formData.state
+    });
   };
 
   return (
     <div className="space-y-8">
       <div className="text-center mb-8 animate-fade-in">
         <h2 className="text-3xl font-poppins font-semibold text-foreground mb-3">
-          Final Step - Income & Location
+          Income & Location Details
         </h2>
         <p className="text-muted-foreground text-lg">
-          Last details to unlock your personalized loan offers
+          Help us understand your financial situation
         </p>
         <div className="flex items-center justify-center gap-2 mt-3 text-sm text-success animate-pulse">
           <Check className="h-4 w-4" />
-          <span>You're 30 seconds away from instant pre-approval!</span>
+          <span>Higher income = Better loan offers</span>
         </div>
       </div>
 
@@ -282,76 +56,45 @@ export const IncomeLocationSection = () => {
             <IndianRupee className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
             <input
               type="text"
-              value={formatCurrency(formData.inhandIncome)}
+              value={formData.inhandIncome}
               onChange={(e) => {
                 const value = e.target.value.replace(/[^\d]/g, '');
                 updateFormData({ inhandIncome: value });
               }}
-              placeholder="50,000"
+              placeholder="Enter amount (e.g., 50000)"
               className="form-input pl-12"
             />
           </div>
           {errors.inhandIncome && (
             <p className="text-destructive text-sm mt-1">{errors.inhandIncome}</p>
           )}
-          <div className="grid grid-cols-3 gap-3 mt-3">
-            {['25000', '50000', '100000'].map((amount) => (
-              <button
-                key={amount}
-                onClick={() => updateFormData({ inhandIncome: amount })}
-                className="px-4 py-2 text-sm border border-border rounded-lg hover:border-primary hover:bg-primary/5 transition-colors"
-              >
-                ₹{parseInt(amount).toLocaleString('en-IN')}
-              </button>
-            ))}
-          </div>
           <p className="text-sm text-muted-foreground mt-1">
-            Include salary, bonuses, and other regular income
+            Your net salary after deductions
           </p>
         </div>
 
-        {/* Payment Method */}
+        {/* Salary Payment Method */}
         <div>
           <label className="block text-sm font-medium text-foreground mb-2">
             How do you receive your salary? *
           </label>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 gap-3">
             {[
-              { 
-                value: 'bank', 
-                label: 'Bank Transfer', 
-                subtitle: 'Fastest processing',
-                icon: CreditCard
-              },
-              { 
-                value: 'cash', 
-                label: 'Cash', 
-                subtitle: 'Additional docs needed',
-                icon: Banknote
-              },
-              { 
-                value: 'cheque', 
-                label: 'Cheque', 
-                subtitle: 'Standard processing',
-                icon: Banknote
-              },
-              { 
-                value: 'upi', 
-                label: 'UPI/Digital', 
-                subtitle: 'Quick verification',
-                icon: Smartphone
-              }
+              { value: 'bank', label: 'Bank Transfer', icon: CreditCard, subtitle: 'Most preferred' },
+              { value: 'cash', label: 'Cash', icon: Banknote, subtitle: 'Limited options' },
+              { value: 'cheque', label: 'Cheque', icon: CreditCard, subtitle: 'Traditional method' },
+              { value: 'upi', label: 'UPI/Digital', icon: Smartphone, subtitle: 'Modern method' }
             ].map((option) => (
               <button
                 key={option.value}
                 onClick={() => updateFormData({ salary_recieved_in: option.value as any })}
                 className={`
-                  radio-option text-center p-3
+                  radio-option text-center p-4
                   ${formData.salary_recieved_in === option.value ? 'selected' : ''}
                 `}
               >
-                <option.icon className="h-5 w-5 text-primary mx-auto mb-2" />
-                <div className="font-medium text-sm">{option.label}</div>
+                <option.icon className="h-6 w-6 mx-auto mb-2 text-primary" />
+                <div className="font-medium">{option.label}</div>
                 <div className="text-xs text-muted-foreground mt-1">{option.subtitle}</div>
               </button>
             ))}
@@ -362,119 +105,109 @@ export const IncomeLocationSection = () => {
         </div>
 
         {/* Residential Pincode */}
-        <div>
-          <label className="block text-sm font-medium text-foreground mb-2">
-            Residential Pincode *
-          </label>
-          <div className="relative">
-            <MapPin className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-            <input
-              type="text"
+        <PincodeSearch
               value={formData.pincode}
-              onChange={(e) => {
-                const value = e.target.value.replace(/[^\d]/g, '').slice(0, 6);
-                updateFormData({ pincode: value });
-                if (value.length === 6) {
-                  fetchLocationFromPincode(value, 'residential');
-                }
-              }}
-              placeholder="Enter 6-digit pincode"
-              className="form-input pl-12"
-              maxLength={6}
-            />
-          </div>
-          {errors.pincode && (
-            <p className="text-destructive text-sm mt-1">{errors.pincode}</p>
-          )}
-          {/* Display pincode, city and state */}
-          {formData.pincode && (
-            <div className="mt-3 p-4 bg-muted/50 border rounded-lg">
-              <div className="flex items-center gap-2 mb-3">
-                <MapPin className="h-4 w-4 text-primary" />
-                <span className="text-sm font-medium text-foreground">Residential Location</span>
-              </div>
-              <div className="grid grid-cols-3 gap-4 text-sm">
-                <div>
-                  <span className="font-medium text-muted-foreground block">Pincode</span>
-                  <div className="text-foreground font-medium">{formData.pincode}</div>
-                </div>
-                <div>
-                  <span className="font-medium text-muted-foreground block">City</span>
-                  <div className="text-foreground font-medium">{formData.city || 'Loading...'}</div>
-                </div>
-                <div>
-                  <span className="font-medium text-muted-foreground block">State</span>
-                  <div className="text-foreground font-medium">{formData.state || 'Loading...'}</div>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
+          onChange={handleResidentialPincodeChange}
+          label="Residential Pincode *"
+          placeholder="Enter your residential pincode"
+          error={errors.pincode}
+        />
 
         {/* Office Pincode */}
-        <div>
-          <label className="block text-sm font-medium text-foreground mb-2">
-            Office Pincode *
-          </label>
-          <div className="relative">
-            <MapPin className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-            <input
-              type="text"
-              value={formData.office_pincode}
-              onChange={(e) => {
-                const value = e.target.value.replace(/[^\d]/g, '').slice(0, 6);
-                updateFormData({ office_pincode: value });
-                if (value.length === 6) {
-                  fetchLocationFromPincode(value, 'office');
-                }
-              }}
-              placeholder="Enter 6-digit pincode"
-              className="form-input pl-12"
-              maxLength={6}
-            />
+        <PincodeSearch
+          value={formData.office_pincode}
+          onChange={handleOfficePincodeChange}
+          label="Office Pincode *"
+          placeholder="Enter your office pincode"
+          error={errors.office_pincode}
+        />
+
+        {/* Same as Residential Option */}
+        {formData.pincode && formData.office_pincode !== formData.pincode && (
+          <div className="flex items-center justify-center">
+            <button
+              onClick={handleSameAsResidential}
+              className="text-primary hover:text-primary/80 text-sm underline"
+            >
+              Use same as residential address
+            </button>
           </div>
-          {errors.office_pincode && (
-            <p className="text-destructive text-sm mt-1">{errors.office_pincode}</p>
-          )}
-          {/* Display office pincode, city and state */}
-          {formData.office_pincode && (
-            <div className="mt-3 p-4 bg-muted/50 border rounded-lg">
-              <div className="flex items-center gap-2 mb-3">
-                <MapPin className="h-4 w-4 text-primary" />
-                <span className="text-sm font-medium text-foreground">Office Location</span>
+        )}
+
+        {/* Credit Information Section */}
+        <div className="space-y-6 pt-6 border-t border-border">
+          <h3 className="text-xl font-semibold text-foreground">Credit Information</h3>
+          
+          {/* Know Credit Score */}
+                <div>
+            <label className="block text-sm font-medium text-foreground mb-2">
+              Do you know your credit score? *
+            </label>
+            <div className="grid grid-cols-2 gap-3">
+              {[
+                { value: true, label: 'Yes', subtitle: 'I know my score' },
+                { value: false, label: 'No', subtitle: "I don't know" }
+              ].map((option) => (
+                <button
+                  key={String(option.value)}
+                  onClick={() => updateFormData({ know_your_credit_score: option.value })}
+                  className={`
+                    radio-option text-center p-4
+                    ${formData.know_your_credit_score === option.value ? 'selected' : ''}
+                  `}
+                >
+                  <div className="font-medium">{option.label}</div>
+                  <div className="text-xs text-muted-foreground mt-1">{option.subtitle}</div>
+                </button>
+              ))}
+                </div>
               </div>
-              <div className="grid grid-cols-3 gap-4 text-sm">
-                <div>
-                  <span className="font-medium text-muted-foreground block">Pincode</span>
-                  <div className="text-foreground font-medium">{formData.office_pincode}</div>
-                </div>
-                <div>
-                  <span className="font-medium text-muted-foreground block">City</span>
-                  <div className="text-foreground font-medium">{formData.office_city || 'Loading...'}</div>
-                </div>
-                <div>
-                  <span className="font-medium text-muted-foreground block">State</span>
-                  <div className="text-foreground font-medium">{formData.office_state || 'Loading...'}</div>
-                </div>
-              </div>
+
+          {/* Credit Range - only show if they know their score */}
+          {formData.know_your_credit_score && (
+            <div>
+              <label className="block text-sm font-medium text-foreground mb-2">
+                What's your credit score? *
+              </label>
+              <input
+                type="text"
+                value={formData.credit_range}
+                onChange={(e) => {
+                  const value = e.target.value.replace(/[^\d]/g, '').slice(0, 3);
+                  updateFormData({ credit_range: value });
+                }}
+                placeholder="Enter your credit score (e.g., 750)"
+                className="form-input"
+                maxLength={3}
+              />
+              <p className="text-sm text-muted-foreground mt-1">
+                Score ranges from 300 to 850
+              </p>
             </div>
           )}
-          <button
-            onClick={() => {
-              updateFormData({ 
-                office_pincode: formData.pincode,
-                office_city: formData.city,
-                office_state: formData.state
-              });
-            }}
-            className="w-full mt-2 py-2 text-sm text-primary border border-primary/20 rounded-lg hover:bg-primary/5 transition-colors"
-            disabled={!formData.pincode}
-          >
-            Same as residential address
-          </button>
+
+          {/* Total EMIs */}
+        <div>
+          <label className="block text-sm font-medium text-foreground mb-2">
+              Total EMI amount you're currently paying *
+          </label>
+          <div className="relative">
+              <IndianRupee className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+            <input
+              type="text"
+                value={formData.total_emis}
+              onChange={(e) => {
+                  const value = parseInt(e.target.value.replace(/[^\d]/g, '')) || 0;
+                  updateFormData({ total_emis: value });
+                }}
+                placeholder="Enter total EMI amount (e.g., 15000)"
+              className="form-input pl-12"
+              />
+            </div>
           <p className="text-sm text-muted-foreground mt-1">
-            If you work from home, use your residential pincode
+              Enter 0 if you don't have any existing EMIs
           </p>
+          </div>
         </div>
       </div>
     </div>

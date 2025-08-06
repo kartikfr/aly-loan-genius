@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useReducer, ReactNode } from 'react';
+import { validateEmailWithMessage } from '@/lib/validation';
 
 export interface FormData {
   // Personal Information
@@ -7,6 +8,7 @@ export interface FormData {
   gender: 'male' | 'female' | 'other' | '';
   dob: string;
   pan: string;
+  email: string;
   
   // Loan Requirements
   loan_amount_required: string;
@@ -26,6 +28,12 @@ export interface FormData {
   state: string;
   office_city: string;
   office_state: string;
+  
+  // Credit Information
+  fetch_credit_consent: boolean;
+  know_your_credit_score: boolean;
+  credit_range: string;
+  total_emis: number;
 }
 
 interface QuestionnaireState {
@@ -50,6 +58,7 @@ const initialState: QuestionnaireState = {
     gender: '',
     dob: '',
     pan: '',
+    email: '',
     loan_amount_required: '',
     timeline: '',
     already_existing_credit: null,
@@ -63,6 +72,10 @@ const initialState: QuestionnaireState = {
     state: '',
     office_city: '',
     office_state: '',
+    fetch_credit_consent: true,
+    know_your_credit_score: true,
+    credit_range: '850',
+    total_emis: 0,
   },
   errors: {},
   isLoading: false,
@@ -94,9 +107,10 @@ interface QuestionnaireContextType {
   validateCurrentStep: () => boolean;
   getTotalSteps: () => number;
   getProgressPercentage: () => number;
+  setLoading: (loading: boolean) => void;
 }
 
-const QuestionnaireContext = createContext<QuestionnaireContextType | undefined>(undefined);
+const QuestionnaireContext = createContext<QuestionnaireContextType | null>(null);
 
 export const QuestionnaireProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [state, dispatch] = useReducer(questionnaireReducer, initialState);
@@ -139,16 +153,26 @@ export const QuestionnaireProvider: React.FC<{ children: ReactNode }> = ({ child
     return Math.round((state.currentStep / getTotalSteps()) * 100);
   };
 
+  const setLoading = (loading: boolean) => {
+    dispatch({ type: 'SET_LOADING', payload: loading });
+  };
+
   const validateCurrentStep = (): boolean => {
     const { formData } = state;
     const errors: Record<string, string> = {};
 
     switch (state.currentStep) {
-      case 1: // Personal Details (Name + DOB + Gender + PAN)
+      case 1: // Personal Details (Name + DOB + Gender + PAN + Email)
         if (!formData.first_name.trim()) errors.first_name = 'First name is required';
         if (!formData.last_name.trim()) errors.last_name = 'Last name is required';
         if (!formData.dob) errors.dob = 'Date of birth is required';
         if (!formData.gender) errors.gender = 'Gender selection is required';
+        {
+          const emailValidation = validateEmailWithMessage(formData.email);
+          if (!emailValidation.isValid) {
+            errors.email = emailValidation.message;
+          }
+        }
         if (!formData.pan.trim()) {
           errors.pan = 'PAN card number is required';
         } else if (!/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(formData.pan)) {
@@ -188,6 +212,25 @@ export const QuestionnaireProvider: React.FC<{ children: ReactNode }> = ({ child
     }
 
     dispatch({ type: 'SET_ERRORS', payload: errors });
+    
+    // If there are errors, scroll to the first error field
+    if (Object.keys(errors).length > 0) {
+      setTimeout(() => {
+        const firstErrorField = Object.keys(errors)[0];
+        const errorElement = document.querySelector(`[name="${firstErrorField}"], [data-field="${firstErrorField}"]`);
+        if (errorElement) {
+          errorElement.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'center' 
+          });
+          // Focus on the first error field
+          if (errorElement instanceof HTMLElement) {
+            errorElement.focus();
+          }
+        }
+      }, 100);
+    }
+    
     return Object.keys(errors).length === 0;
   };
 
@@ -200,6 +243,7 @@ export const QuestionnaireProvider: React.FC<{ children: ReactNode }> = ({ child
     validateCurrentStep,
     getTotalSteps,
     getProgressPercentage,
+    setLoading,
   };
 
   return (
@@ -211,7 +255,7 @@ export const QuestionnaireProvider: React.FC<{ children: ReactNode }> = ({ child
 
 export const useQuestionnaire = (): QuestionnaireContextType => {
   const context = useContext(QuestionnaireContext);
-  if (!context) {
+  if (context === null) {
     throw new Error('useQuestionnaire must be used within a QuestionnaireProvider');
   }
   return context;

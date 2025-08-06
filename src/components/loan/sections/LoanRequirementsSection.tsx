@@ -2,7 +2,8 @@ import { useQuestionnaire } from '../QuestionnaireContext';
 import { Clock, Zap, Calendar, CreditCard, X, TrendingUp } from 'lucide-react';
 
 export const LoanRequirementsSection = () => {
-  const { state, updateFormData } = useQuestionnaire();
+  const context = useQuestionnaire();
+const { state, updateFormData } = context;
   const { formData, errors } = state;
 
   return (

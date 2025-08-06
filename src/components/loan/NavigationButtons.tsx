@@ -1,22 +1,98 @@
 import { useQuestionnaire } from './QuestionnaireContext';
+import { leadService } from '@/lib/leadService';
+import { useAuth } from '@/contexts/AuthContext';
 import { ChevronLeft, ChevronRight, Loader2, Home } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export const NavigationButtons = () => {
-  const { state, nextStep, prevStep, validateCurrentStep, getTotalSteps } = useQuestionnaire();
+  const context = useQuestionnaire();
+  const { state, nextStep, prevStep, validateCurrentStep, getTotalSteps, setLoading } = context;
+  const { authToken } = useAuth();
   const navigate = useNavigate();
   
   const isFirstStep = state.currentStep === 1;
   const isLastStep = state.currentStep === getTotalSteps();
   
-  const handleNext = () => {
+  const handleNext = async () => {
     if (validateCurrentStep()) {
       if (isLastStep) {
         // Handle form submission
-        console.log('Submitting form:', state.formData);
+        await handleFormSubmission();
       } else {
         nextStep();
       }
+    }
+  };
+
+  const handleFormSubmission = async () => {
+    if (!authToken) {
+      console.error('No auth token available');
+      alert('Authentication error. Please try logging in again.');
+      return;
+    }
+
+    setLoading(true);
+    
+    try {
+      console.log('🚀 Submitting lead with form data:', state.formData);
+      
+      const result = await leadService.submitLead(state.formData, authToken);
+      
+      if (result.success) {
+        console.log('✅ Lead submitted successfully:', result);
+        
+        // Store the loan offers in localStorage for the results page
+        localStorage.setItem('loanOffers', JSON.stringify(result.loanOffers));
+        localStorage.setItem('leadInfo', JSON.stringify({
+          leadId: result.leadId,
+          exitId: result.exitId,
+          vendor: result.vendor
+        }));
+        
+        // Navigate to results page
+        navigate('/loan-offers');
+      } else {
+        console.error('❌ Lead submission failed:', result.error);
+        
+        // Provide user-friendly error messages
+        let userMessage = 'Submission failed. Please try again.';
+        
+        if (result.error?.includes('502')) {
+          userMessage = 'Our servers are temporarily busy. Please try again in a few moments.';
+        } else if (result.error?.includes('503')) {
+          userMessage = 'Service temporarily unavailable. Please try again later.';
+        } else if (result.error?.includes('504')) {
+          userMessage = 'Request timeout. Please check your internet connection and try again.';
+        } else if (result.error?.includes('network')) {
+          userMessage = 'Network error. Please check your internet connection and try again.';
+        } else if (result.error) {
+          userMessage = `Submission failed: ${result.error}`;
+        }
+        
+        alert(userMessage);
+      }
+    } catch (error) {
+      console.error('❌ Unexpected error during submission:', error);
+      
+      let userMessage = 'An unexpected error occurred. Please try again.';
+      
+      if (error instanceof Error) {
+        if (error.message.includes('502')) {
+          userMessage = 'Our servers are temporarily busy. Please try again in a few moments.';
+        } else if (error.message.includes('503')) {
+          userMessage = 'Service temporarily unavailable. Please try again later.';
+        } else if (error.message.includes('504')) {
+          userMessage = 'Request timeout. Please check your internet connection and try again.';
+        } else if (error.message.includes('network')) {
+          userMessage = 'Network error. Please check your internet connection and try again.';
+        } else {
+          userMessage = `Error: ${error.message}`;
+        }
+      }
+      
+      alert(userMessage);
+    } finally {
+      setLoading(false);
     }
   };
 

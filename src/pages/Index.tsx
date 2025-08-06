@@ -1,7 +1,24 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ArrowRight, Shield, Check, Clock, Star, Users, Award, Target, Zap, TrendingUp } from 'lucide-react';
+import { useState } from 'react';
+import { OTPModal } from '@/components/auth/OTPModal';
+import { useAuth } from '@/contexts/AuthContext';
 
 const Index = () => {
+  const navigate = useNavigate();
+  const { login } = useAuth();
+  const [isOTPModalOpen, setIsOTPModalOpen] = useState(false);
+
+  const handleCTAClick = () => {
+    setIsOTPModalOpen(true);
+  };
+
+  const handleOTPSuccess = (userData: any) => {
+    // Login user with the received data and token
+    login(userData, userData.token || '');
+    // Navigate to questionnaire
+    navigate('/questionnaire');
+  };
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
@@ -39,13 +56,13 @@ const Index = () => {
           </p>
 
           <div className="mb-12 animate-fade-in">
-            <Link
-              to="/questionnaire"
+            <button
+              onClick={handleCTAClick}
               className="btn-trust inline-flex items-center gap-3 text-lg hover-scale group"
             >
               Get My Best Rates Now
               <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
-            </Link>
+            </button>
           </div>
 
           {/* Enhanced social proof with cards */}
@@ -200,13 +217,13 @@ const Index = () => {
           </p>
           
           <div className="mb-8">
-            <Link
-              to="/questionnaire"
+            <button
+              onClick={handleCTAClick}
               className="inline-flex items-center gap-3 bg-white text-primary px-8 py-4 rounded-xl font-semibold text-lg hover:bg-gray-50 transition-all hover-scale group shadow-lg"
             >
               Start My Application
               <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
-            </Link>
+            </button>
           </div>
           
           <div className="flex flex-wrap items-center justify-center gap-6 text-primary-foreground/80 text-sm">
@@ -225,6 +242,13 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* OTP Modal */}
+      <OTPModal
+        isOpen={isOTPModalOpen}
+        onClose={() => setIsOTPModalOpen(false)}
+        onSuccess={handleOTPSuccess}
+      />
     </div>
   );
 };

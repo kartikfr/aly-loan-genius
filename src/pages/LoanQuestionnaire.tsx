@@ -1,19 +1,7 @@
-import { useState } from 'react';
-import { QuestionnaireProvider } from '@/components/loan/QuestionnaireContext';
-import { QuestionnaireFlow } from '@/components/loan/QuestionnaireFlow';
-import { ProgressHeader } from '@/components/loan/ProgressHeader';
+import { QuestionnaireWrapper } from '@/components/loan/QuestionnaireWrapper';
 
 const LoanQuestionnaire = () => {
-  return (
-    <QuestionnaireProvider>
-      <div className="min-h-screen bg-background">
-        <ProgressHeader />
-        <main className="container mx-auto px-4 py-8 max-w-5xl">
-          <QuestionnaireFlow />
-        </main>
-      </div>
-    </QuestionnaireProvider>
-  );
+  return <QuestionnaireWrapper />;
 };
 
 export default LoanQuestionnaire;

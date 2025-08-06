@@ -1,9 +1,29 @@
 import { useQuestionnaire } from '../QuestionnaireContext';
 import { Shield } from 'lucide-react';
+import { getEmailValidationError } from '@/lib/validation';
 
 export const PersonalInfoSection = () => {
-  const { state, updateFormData } = useQuestionnaire();
+  const context = useQuestionnaire();
+  const { state, updateFormData, dispatch } = context;
   const { formData, errors } = state;
+
+  const validateEmail = (email: string) => {
+    const errorMessage = getEmailValidationError(email);
+    if (errorMessage) {
+      dispatch({ 
+        type: 'SET_ERRORS', 
+        payload: { ...errors, email: errorMessage } 
+      });
+    } else {
+      // Clear email error if validation passes
+      const clearedErrors = { ...errors };
+      delete clearedErrors.email;
+      dispatch({ 
+        type: 'SET_ERRORS', 
+        payload: clearedErrors 
+      });
+    }
+  };
 
   return (
     <div className="space-y-8">
@@ -165,6 +185,49 @@ export const PersonalInfoSection = () => {
           {errors.gender && (
             <p className="text-destructive text-sm mt-1">{errors.gender}</p>
           )}
+        </div>
+
+        {/* Email */}
+        <div>
+          <label className="block text-sm font-medium text-foreground mb-2">
+            Email Address *
+          </label>
+          <div className="relative">
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={(e) => {
+                updateFormData({ email: e.target.value });
+                // Real-time validation for better UX
+                if (e.target.value.length > 0) {
+                  validateEmail(e.target.value);
+                }
+              }}
+              onBlur={(e) => validateEmail(e.target.value)}
+              placeholder="your.email@example.com"
+              className={`form-input pr-10 ${
+                formData.email && !errors.email && getEmailValidationError(formData.email) === '' 
+                  ? 'border-green-500 focus:border-green-500 focus:ring-green-500' 
+                  : errors.email 
+                    ? 'border-red-500 focus:border-red-500 focus:ring-red-500'
+                    : ''
+              }`}
+            />
+            {formData.email && !errors.email && getEmailValidationError(formData.email) === '' && (
+              <div className="absolute inset-y-0 right-0 flex items-center pr-3">
+                <svg className="h-5 w-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+              </div>
+            )}
+          </div>
+          {errors.email && (
+            <p className="text-destructive text-sm mt-1">{errors.email}</p>
+          )}
+          <p className="text-sm text-muted-foreground mt-1">
+            We'll use this to send you loan updates and offers
+          </p>
         </div>
 
         {/* PAN Card */}

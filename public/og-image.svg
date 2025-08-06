@@ -1,0 +1,57 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background gradient -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2563EB;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1E40AF;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="cardGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:0.95" />
+      <stop offset="100%" style="stop-color:#F8FAFC;stop-opacity:0.95" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bgGradient)"/>
+  
+  <!-- Decorative elements -->
+  <circle cx="100" cy="100" r="50" fill="#FFFFFF" opacity="0.1"/>
+  <circle cx="1100" cy="530" r="80" fill="#FFFFFF" opacity="0.1"/>
+  <circle cx="200" cy="500" r="30" fill="#FCD34D" opacity="0.3"/>
+  <circle cx="1000" cy="150" r="40" fill="#FCD34D" opacity="0.3"/>
+  
+  <!-- Main content card -->
+  <rect x="100" y="100" width="1000" height="430" rx="20" fill="url(#cardGradient)" stroke="#FFFFFF" stroke-width="2"/>
+  
+  <!-- Logo -->
+  <circle cx="200" cy="250" r="60" fill="#2563EB"/>
+  <circle cx="200" cy="250" r="40" fill="#FFFFFF"/>
+  <circle cx="200" cy="250" r="30" fill="#2563EB"/>
+  
+  <!-- Dollar sign in logo -->
+  <path d="M200 190V310M180 210C180 205.029 184.029 201 189 201H211C215.971 201 220 205.029 220 210C220 214.971 215.971 219 211 219H189C184.029 219 180 223.029 180 228C180 232.971 184.029 237 189 237H211C215.971 237 220 241.029 220 246C220 250.971 215.971 255 211 255H189C184.029 255 180 250.971 180 246" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round"/>
+  
+  <!-- Main title -->
+  <text x="300" y="220" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="#1E293B">Loan Genius</text>
+  
+  <!-- Subtitle -->
+  <text x="300" y="260" font-family="Arial, sans-serif" font-size="24" fill="#64748B">Smart Loan Comparison & Application Platform</text>
+  
+  <!-- Features list -->
+  <text x="300" y="320" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#1E293B">✓ Compare Best Loan Offers</text>
+  <text x="300" y="350" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#1E293B">✓ Instant Loan Approval</text>
+  <text x="300" y="380" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#1E293B">✓ Lowest Interest Rates</text>
+  <text x="300" y="410" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#1E293B">✓ Quick Online Application</text>
+  
+  <!-- Call to action -->
+  <rect x="300" y="450" width="200" height="50" rx="25" fill="#2563EB"/>
+  <text x="400" y="480" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#FFFFFF" text-anchor="middle">Get Started</text>
+  
+  <!-- Sparkle effects -->
+  <circle cx="800" cy="200" r="8" fill="#FCD34D"/>
+  <circle cx="900" cy="180" r="6" fill="#FCD34D"/>
+  <circle cx="850" cy="300" r="10" fill="#FCD34D"/>
+  <circle cx="950" cy="280" r="7" fill="#FCD34D"/>
+  <circle cx="800" cy="400" r="5" fill="#FCD34D"/>
+  <circle cx="900" cy="420" r="9" fill="#FCD34D"/>
+</svg> 
