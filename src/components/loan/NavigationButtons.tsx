@@ -3,24 +3,44 @@ import { leadService } from '@/lib/leadService';
 import { useAuth } from '@/contexts/AuthContext';
 import { ChevronLeft, ChevronRight, Loader2, Home } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useEnterKey } from '@/hooks/useEnterKey';
+import { useFormValidation } from '@/hooks/useFormValidation';
 
 export const NavigationButtons = () => {
   const context = useQuestionnaire();
   const { state, nextStep, prevStep, validateCurrentStep, getTotalSteps, setLoading } = context;
   const { authToken } = useAuth();
   const navigate = useNavigate();
+  const { validateAndFocus } = useFormValidation();
   
   const isFirstStep = state.currentStep === 1;
   const isLastStep = state.currentStep === getTotalSteps();
+
+  // Handle Enter key for form navigation
+  useEnterKey({
+    onEnter: () => {
+      console.log('Enter key pressed - attempting to proceed to next step');
+      handleNext();
+    },
+    enabled: !state.isLoading,
+    dependencies: [state.currentStep, state.formData, state.errors]
+  });
   
   const handleNext = async () => {
-    if (validateCurrentStep()) {
+    const isValid = validateCurrentStep();
+    
+    if (isValid) {
       if (isLastStep) {
         // Handle form submission
         await handleFormSubmission();
       } else {
         nextStep();
       }
+    } else {
+      // Focus on the first error field when validation fails
+      validateAndFocus(state.errors, () => {
+        console.log('Validation failed, focusing on first error field');
+      });
     }
   };
 

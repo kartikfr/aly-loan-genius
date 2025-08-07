@@ -56,6 +56,7 @@ const { state, updateFormData } = context;
             <IndianRupee className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
             <input
               type="text"
+              name="inhandIncome"
               value={formData.inhandIncome}
               onChange={(e) => {
                 const value = e.target.value.replace(/[^\d]/g, '');

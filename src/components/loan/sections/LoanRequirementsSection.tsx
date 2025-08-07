@@ -33,6 +33,7 @@ const { state, updateFormData } = context;
             </span>
             <input
               type="number"
+              name="loan_amount_required"
               value={formData.loan_amount_required}
               onChange={(e) => updateFormData({ loan_amount_required: e.target.value })}
               placeholder="Enter loan amount"

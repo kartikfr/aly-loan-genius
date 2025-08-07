@@ -7,6 +7,10 @@
     {
       "source": "/api/external/:path*", 
       "destination": "https://bk-api.bankkaro.com/:path*"
+    },
+    {
+      "source": "/((?!api/).*)",
+      "destination": "/index.html"
     }
   ],
   "headers": [
@@ -26,6 +30,20 @@
           "value": "Content-Type, Authorization, partner-token, x-epoch, x-api-key"
         }
       ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
     }
-  ]
+  ],
+  "functions": {
+    "app/api/**/*.js": {
+      "maxDuration": 30
+    }
+  }
 } 

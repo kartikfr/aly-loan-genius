@@ -12,6 +12,8 @@ export default defineConfig(({ mode }) => {
     server: {
       host: env.VITE_HOST || "::",
       port: parseInt(env.VITE_PORT || "8080"),
+      // Handle SPA routing in development
+      historyApiFallback: true,
       // Only use proxy in development mode
       ...({
         proxy: {
@@ -39,6 +41,10 @@ export default defineConfig(({ mode }) => {
           }
         }
       })
+    },
+    // Configure for SPA routing - handle all routes by serving index.html
+    preview: {
+      port: parseInt(env.VITE_PORT || "8080"),
     },
     plugins: [
       react(),

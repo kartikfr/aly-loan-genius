@@ -49,6 +49,7 @@ export const PersonalInfoSection = () => {
             </label>
             <input
               type="text"
+              name="first_name"
               value={formData.first_name}
               onChange={(e) => updateFormData({ first_name: e.target.value })}
               placeholder="Enter your first name"
@@ -65,6 +66,7 @@ export const PersonalInfoSection = () => {
             </label>
             <input
               type="text"
+              name="last_name"
               value={formData.last_name}
               onChange={(e) => updateFormData({ last_name: e.target.value })}
               placeholder="Enter your last name"
@@ -83,6 +85,7 @@ export const PersonalInfoSection = () => {
           </label>
           <div className="grid grid-cols-3 gap-3">
             <select
+              name="dob_day"
               value={formData.dob ? formData.dob.split('-')[2] : ''}
               onChange={(e) => {
                 const day = e.target.value;
@@ -104,6 +107,7 @@ export const PersonalInfoSection = () => {
             </select>
             
             <select
+              name="dob_month"
               value={formData.dob ? formData.dob.split('-')[1] : ''}
               onChange={(e) => {
                 const month = e.target.value;
@@ -129,6 +133,7 @@ export const PersonalInfoSection = () => {
             </select>
             
             <select
+              name="dob_year"
               value={formData.dob ? formData.dob.split('-')[0] : ''}
               onChange={(e) => {
                 const year = e.target.value;
@@ -237,6 +242,7 @@ export const PersonalInfoSection = () => {
           </label>
           <input
             type="text"
+            name="pan"
             value={formData.pan}
             onChange={(e) => updateFormData({ pan: e.target.value.toUpperCase() })}
             placeholder="ABCDE1234F"
