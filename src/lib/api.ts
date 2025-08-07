@@ -2,6 +2,10 @@
 const UAT_BASE_URL = '/api/uat';
 const EXTERNAL_BASE_URL = '/api/external';
 
+// Environment variables for API configuration
+const PARTNER_API_KEY = 'test';
+const LEAD_TYPE = 'PL';
+
 export interface PartnerTokenResponse {
   status: string;
   message: string;
@@ -187,7 +191,7 @@ class ApiService {
           'Accept': 'application/json',
         },
         body: JSON.stringify({
-          'x-api-key': 'test'
+          'x-api-key': PARTNER_API_KEY
         })
       });
 
@@ -303,7 +307,7 @@ class ApiService {
       console.log('🏢 Creating lead...');
       
       const payload: LeadDetailsPayload = {
-        leadType: 'PL',
+        leadType: LEAD_TYPE,
         payload: {
           generateExit: true
         }
@@ -354,7 +358,7 @@ class ApiService {
         console.log(`📝 Submitting lead details (attempt ${attempt}/${maxRetries})...`);
         
         const payload: LeadDetailsPayload = {
-          leadType: 'PL',
+          leadType: LEAD_TYPE,
           payload: {
             ...leadData,
             // Map user data to API format
