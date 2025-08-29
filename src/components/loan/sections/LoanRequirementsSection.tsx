@@ -8,14 +8,14 @@ const { state, updateFormData } = context;
 
   return (
     <div className="space-y-8">
-      <div className="text-center mb-8 animate-fade-in">
+      <div className="text-center mb-8">
         <h2 className="text-3xl font-poppins font-semibold text-foreground mb-3">
           What's Your Ideal Loan?
         </h2>
         <p className="text-muted-foreground text-lg">
           Help us match you with the perfect loan offers from top lenders
         </p>
-        <div className="flex items-center justify-center gap-2 mt-3 text-sm text-primary animate-pulse">
+        <div className="flex items-center justify-center gap-2 mt-3 text-sm text-primary">
           <TrendingUp className="h-4 w-4" />
           <span>Compare rates from 15+ verified lenders instantly</span>
         </div>

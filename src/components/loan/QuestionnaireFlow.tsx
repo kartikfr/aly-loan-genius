@@ -18,18 +18,22 @@ export const QuestionnaireFlow = () => {
 
   return (
     <div className="w-full">
-      {/* Horizontal section layout */}
-      <div className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide">
+      {/* Smooth section transitions */}
+      <div className="relative overflow-hidden">
         {sections.map((section, index) => (
           <div
             key={section.id}
             className={`
-              flex-none w-full min-h-[600px] snap-center animate-fade-in
-              ${index !== sections.length - 1 ? 'mr-8' : ''}
-              ${state.currentStep === section.id ? 'block' : 'hidden'}
+              w-full min-h-[600px] transition-all duration-500 ease-in-out
+              ${state.currentStep === section.id 
+                ? 'opacity-100 translate-x-0' 
+                : state.currentStep > section.id 
+                  ? 'opacity-0 -translate-x-full absolute top-0 left-0'
+                  : 'opacity-0 translate-x-full absolute top-0 left-0'
+              }
             `}
           >
-            <div className="form-card h-full animate-scale-in">
+            <div className="form-card h-full">
               {section.component}
             </div>
           </div>

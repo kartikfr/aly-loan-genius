@@ -81,6 +81,12 @@ export const CompanySearch: React.FC<CompanySearchProps> = ({
     setIsOpen(false);
   };
 
+  const handleOtherSelect = () => {
+    setSearchTerm("Other");
+    onChange("Other");
+    setIsOpen(false);
+  };
+
   const handleInputFocus = () => {
     setIsOpen(true);
     if (searchTerm.length >= 2) {
@@ -126,6 +132,7 @@ export const CompanySearch: React.FC<CompanySearchProps> = ({
       {isOpen && companies.length > 0 && (
         <div className="absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-xl max-h-60 overflow-hidden">
           <div className="max-h-60 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+            {/* Show API search results */}
             {companies.map((company) => (
               <button
                 key={company.id}
@@ -142,10 +149,29 @@ export const CompanySearch: React.FC<CompanySearchProps> = ({
         </div>
       )}
 
-      {isOpen && searchTerm.length >= 2 && companies.length === 0 && !isLoading && (
-        <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg p-4 text-center text-gray-500">
-          <div>No companies found for "{searchTerm}"</div>
-          <div className="text-sm mt-1">You can continue typing your company name</div>
+      {isOpen && searchTerm.length >= 2 && companies.length === 0 && !isLoading && searchTerm !== "Other" && (
+        <div className="absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-xl max-h-60 overflow-hidden">
+          <div className="max-h-60 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+            {/* Show "Other" option when no companies found */}
+            <button
+              onClick={handleOtherSelect}
+              className="w-full px-4 py-3 text-left hover:bg-blue-50 focus:bg-blue-50 focus:outline-none border-b border-gray-100 transition-colors duration-150"
+            >
+              <div className="flex items-center">
+                <Building className="h-4 w-4 text-primary mr-3 flex-shrink-0" />
+                <div>
+                  <span className="text-gray-900 font-medium">Other</span>
+                  <div className="text-xs text-gray-500">Self-employed / Company not listed</div>
+                </div>
+              </div>
+            </button>
+            
+            {/* No results message */}
+            <div className="px-4 py-3 text-center text-gray-500">
+              <div className="text-sm">No companies found for "{searchTerm}"</div>
+              <div className="text-xs mt-1 text-gray-400">Try different keywords or select "Other" above</div>
+            </div>
+          </div>
         </div>
       )}
     </div>

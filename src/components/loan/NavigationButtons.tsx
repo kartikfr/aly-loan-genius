@@ -143,7 +143,7 @@ export const NavigationButtons = () => {
         </div>
 
         {/* Progress indicator for desktop */}
-        <div className="hidden md:flex items-center gap-2 text-sm text-muted-foreground animate-fade-in">
+        <div className="hidden md:flex items-center gap-2 text-sm text-muted-foreground">
           <span>Section {state.currentStep} of {getTotalSteps()}</span>
           <div className="w-16 h-1 bg-muted rounded-full overflow-hidden ml-2">
             <div 

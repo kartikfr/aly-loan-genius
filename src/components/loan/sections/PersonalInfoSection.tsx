@@ -27,14 +27,14 @@ export const PersonalInfoSection = () => {
 
   return (
     <div className="space-y-8">
-      <div className="text-center mb-8 animate-fade-in">
+      <div className="text-center mb-8">
         <h2 className="text-3xl font-poppins font-semibold text-foreground mb-3">
           Let's Get You Pre-Approved 
         </h2>
         <p className="text-muted-foreground text-lg">
           Secure & confidential - Start with your basic details
         </p>
-        <div className="flex items-center justify-center gap-2 mt-3 text-sm text-success animate-pulse">
+        <div className="flex items-center justify-center gap-2 mt-3 text-sm text-success">
           <Shield className="h-4 w-4" />
           <span>Bank-grade security • No impact on credit score</span>
         </div>

@@ -33,14 +33,14 @@ const { state, updateFormData } = context;
 
   return (
     <div className="space-y-8">
-      <div className="text-center mb-8 animate-fade-in">
+      <div className="text-center mb-8">
         <h2 className="text-3xl font-poppins font-semibold text-foreground mb-3">
           Income & Location Details
         </h2>
         <p className="text-muted-foreground text-lg">
           Help us understand your financial situation
         </p>
-        <div className="flex items-center justify-center gap-2 mt-3 text-sm text-success animate-pulse">
+        <div className="flex items-center justify-center gap-2 mt-3 text-sm text-success">
           <Check className="h-4 w-4" />
           <span>Higher income = Better loan offers</span>
         </div>
