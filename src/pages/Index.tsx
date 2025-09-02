@@ -1,14 +1,26 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { ArrowRight, Shield, Check, Clock, Star, Users, Award, Target, Zap, TrendingUp, ChevronDown, HelpCircle } from 'lucide-react';
+import { ArrowRight, Shield, Check, Clock, Star, Users, Award, Target, Zap, TrendingUp, ChevronDown, HelpCircle, Send, Mail, Phone, User } from 'lucide-react';
 import { useState } from 'react';
 import { OTPModal } from '@/components/auth/OTPModal';
 import { useAuth } from '@/contexts/AuthContext';
+import { submitContactForm } from '@/lib/contactService';
 
 const Index = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
   const [isOTPModalOpen, setIsOTPModalOpen] = useState(false);
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
+  
+  // Contact form state
+  const [contactForm, setContactForm] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    message: ''
+  });
+  const [formErrors, setFormErrors] = useState<{[key: string]: string}>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
 
   const handleCTAClick = () => {
     setIsOTPModalOpen(true);
@@ -19,6 +31,80 @@ const Index = () => {
     login(userData, userData.token || '');
     // Navigate to questionnaire
     navigate('/questionnaire');
+  };
+
+  // Contact form validation
+  const validateForm = () => {
+    const errors: {[key: string]: string} = {};
+    
+    if (!contactForm.name.trim()) {
+      errors.name = 'Name is required';
+    } else if (contactForm.name.trim().length < 2) {
+      errors.name = 'Name must be at least 2 characters';
+    }
+    
+    if (!contactForm.email.trim()) {
+      errors.email = 'Email is required';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contactForm.email)) {
+      errors.email = 'Please enter a valid email address';
+    }
+    
+    if (!contactForm.phone.trim()) {
+      errors.phone = 'Phone number is required';
+    } else if (!/^[6-9]\d{9}$/.test(contactForm.phone.replace(/\s/g, ''))) {
+      errors.phone = 'Please enter a valid 10-digit phone number';
+    }
+    
+    if (!contactForm.message.trim()) {
+      errors.message = 'Message is required';
+    } else if (contactForm.message.trim().length < 10) {
+      errors.message = 'Message must be at least 10 characters';
+    }
+    
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  // Handle form input changes
+  const handleInputChange = (field: string, value: string) => {
+    setContactForm(prev => ({ ...prev, [field]: value }));
+    // Clear error when user starts typing
+    if (formErrors[field]) {
+      setFormErrors(prev => ({ ...prev, [field]: '' }));
+    }
+  };
+
+  // Handle form submission
+  const handleContactSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!validateForm()) {
+      return;
+    }
+    
+    setIsSubmitting(true);
+    
+    try {
+      await submitContactForm({
+        name: contactForm.name.trim(),
+        email: contactForm.email.trim(),
+        phone: contactForm.phone.trim(),
+        message: contactForm.message.trim(),
+        created_at: new Date().toISOString()
+      });
+      
+      setSubmitSuccess(true);
+      setContactForm({ name: '', email: '', phone: '', message: '' });
+      setFormErrors({});
+      
+      // Reset success message after 5 seconds
+      setTimeout(() => setSubmitSuccess(false), 5000);
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      setFormErrors({ submit: 'Failed to submit form. Please try again.' });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const faqData = [
@@ -73,7 +159,7 @@ const Index = () => {
             </div>
             <div className="trust-badge animate-fade-in hover-scale">
               <Clock className="h-4 w-4" />
-              <span className="text-xs md:text-sm">57 Second Approval</span>
+              <span className="text-xs md:text-sm">Instant Rate Comparison</span>
             </div>
           </div>
 
@@ -129,8 +215,8 @@ const Index = () => {
               <div className="flex items-center justify-center gap-3">
                 <Award className="h-5 w-5 text-success" />
                 <div className="text-left">
-                  <div className="font-semibold text-foreground">RBI</div>
-                  <div className="text-xs text-muted-foreground">Registered Partners</div>
+                  <div className="font-semibold text-foreground">100%</div>
+                  <div className="text-xs text-muted-foreground">RBI Registered</div>
                 </div>
               </div>
             </div>
@@ -205,7 +291,7 @@ const Index = () => {
                 </div>
                 <h3 className="text-xl font-semibold mb-4">Quick Assessment</h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  Answer a few questions about your loan needs. Done in under 57 seconds.
+                  Answer a few questions about your loan needs. Get matched instantly.
                 </p>
               </div>
             </div>
@@ -275,7 +361,7 @@ const Index = () => {
             </div>
             <div className="flex items-center gap-2">
               <Clock className="h-4 w-4" />
-              <span>57 Second Approval</span>
+              <span>Instant Rate Comparison</span>
             </div>
           </div>
         </div>
@@ -328,22 +414,127 @@ const Index = () => {
               </div>
             ))}
           </div>
-          
-          <div className="text-center mt-12">
-            <p className="text-muted-foreground mb-4">
-              Have more questions? We're here to help!
-            </p>
-            <button
-              onClick={handleCTAClick}
-              className="inline-flex items-center gap-2 text-primary hover:text-primary-hover font-medium transition-colors"
-            >
-              Get personalized answers
-              <ArrowRight className="h-4 w-4" />
-            </button>
-          </div>
         </div>
       </section>
 
+      {/* Contact Form Section */}
+      <section className="py-20 bg-background">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-poppins font-semibold text-foreground mb-4">
+              Get in Touch
+            </h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
+              Have a question or feedback? We'd love to hear from you!
+            </p>
+          </div>
+
+          <div className="max-w-3xl mx-auto">
+            <form onSubmit={handleContactSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="col-span-1 md:col-span-1">
+                <label htmlFor="name" className="block text-sm font-medium text-muted-foreground mb-1">
+                  Name <span className="text-red-500">*</span>
+                </label>
+                <div className="relative">
+                  <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <input
+                    type="text"
+                    id="name"
+                    value={contactForm.name}
+                    onChange={(e) => handleInputChange('name', e.target.value)}
+                    className="w-full pl-10 pr-4 py-3 rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
+                    placeholder="Your Name"
+                  />
+                </div>
+                {formErrors.name && <p className="text-red-500 text-xs mt-1">{formErrors.name}</p>}
+              </div>
+              
+              <div className="col-span-1 md:col-span-1">
+                <label htmlFor="email" className="block text-sm font-medium text-muted-foreground mb-1">
+                  Email <span className="text-red-500">*</span>
+                </label>
+                <div className="relative">
+                  <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <input
+                    type="email"
+                    id="email"
+                    value={contactForm.email}
+                    onChange={(e) => handleInputChange('email', e.target.value)}
+                    className="w-full pl-10 pr-4 py-3 rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
+                    placeholder="your.email@example.com"
+                  />
+                </div>
+                {formErrors.email && <p className="text-red-500 text-xs mt-1">{formErrors.email}</p>}
+              </div>
+              
+              <div className="col-span-1 md:col-span-1">
+                <label htmlFor="phone" className="block text-sm font-medium text-muted-foreground mb-1">
+                  Phone Number <span className="text-red-500">*</span>
+                </label>
+                <div className="relative">
+                  <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <input
+                    type="tel"
+                    id="phone"
+                    value={contactForm.phone}
+                    onChange={(e) => handleInputChange('phone', e.target.value)}
+                    className="w-full pl-10 pr-4 py-3 rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
+                    placeholder="9876543210"
+                  />
+                </div>
+                {formErrors.phone && <p className="text-red-500 text-xs mt-1">{formErrors.phone}</p>}
+              </div>
+              
+              <div className="col-span-1 md:col-span-2">
+                <label htmlFor="message" className="block text-sm font-medium text-muted-foreground mb-1">
+                  Message <span className="text-red-500">*</span>
+                </label>
+                <textarea
+                  id="message"
+                  value={contactForm.message}
+                  onChange={(e) => handleInputChange('message', e.target.value)}
+                  rows={5}
+                  className="w-full px-4 py-3 rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary resize-none"
+                  placeholder="Tell us about your question or feedback..."
+                />
+                {formErrors.message && <p className="text-red-500 text-xs mt-1">{formErrors.message}</p>}
+              </div>
+              
+              <div className="col-span-1 md:col-span-2">
+                {formErrors.submit && (
+                  <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+                    {formErrors.submit}
+                  </div>
+                )}
+                
+                {submitSuccess && (
+                  <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg">
+                    Thank you! Your message has been sent successfully. We'll get back to you soon.
+                  </div>
+                )}
+                
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full md:w-auto inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-8 py-3 rounded-lg font-medium hover:bg-primary-hover transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="h-4 w-4" />
+                      Send Message
+                    </>
+                  )}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
       {/* Footer */}
       <footer className="bg-gray-900 text-gray-300">
         {/* Main Footer Content */}
@@ -354,7 +545,7 @@ const Index = () => {
               LOAN GENIUS
             </h2>
             <p className="text-lg md:text-xl max-w-4xl mx-auto leading-relaxed">
-              "Your financial freedom is just one minute away. We connect you with India's lowest loan rates from 50+ trusted RBI-registered lenders."
+              "Your financial freedom starts with smart comparison. We connect you with India's lowest loan rates from 50+ trusted RBI-registered lenders."
             </p>
           </div>
         </div>
