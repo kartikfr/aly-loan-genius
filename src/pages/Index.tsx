@@ -7,6 +7,13 @@ import { submitContactForm } from '@/lib/contactService';
 import alyImage from '@/Assets/aly pp.webp';
 import alyPointingImage from '@/Assets/aly pointing image.webp';
 import instagramLogo from '@/Assets/pngtree-instagram-icon-instagram-logo-png-image_3584852.png';
+// Company logo imports
+import olaCabsLogo from '@/Assets/ola-cabs-logo-png-transparent.png';
+import oyoRoomsLogo from '@/Assets/OYO_Rooms_(logo).png';
+import amazonLogo from '@/Assets/Amazon_logo.svg.png';
+import microsoftLogo from '@/Assets/Microsoft_logo_(2012).svg.png';
+import companyLogo from '@/Assets/65225ab6d965e5804a632b643e317bf4.jpg';
+import groupPhoto from '@/Assets/group photo.webp';
 
 // Custom hook for number animation
 const useCountUp = (end: number, duration: number = 2000) => {
@@ -470,7 +477,7 @@ const Index = () => {
            <div className="max-w-5xl mx-auto mb-12 md:mb-16">
              <div className="relative">
                <img 
-                 src="/src/Assets/group%20photo.webp" 
+                 src={groupPhoto} 
                  alt="Group of people from top companies" 
                  className="w-full h-auto rounded-t-2xl shadow-2xl"
                  style={{
@@ -500,38 +507,38 @@ const Index = () => {
                  {/* First set of logos */}
                  <div className="flex items-center gap-6 md:gap-12 px-3 md:px-6 flex-shrink-0">
                    <div className="flex items-center justify-center w-24 h-16 md:w-32 md:h-20 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border border-border/20">
-                     <img src="/src/Assets/ola-cabs-logo-png-transparent.png" alt="Ola Cabs" className="max-w-16 max-h-10 md:max-w-20 md:max-h-12 object-contain" />
+                     <img src={olaCabsLogo} alt="Ola Cabs" className="max-w-16 max-h-10 md:max-w-20 md:max-h-12 object-contain" />
               </div>
                    <div className="flex items-center justify-center w-24 h-16 md:w-32 md:h-20 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border border-border/20">
-                     <img src="/src/Assets/OYO_Rooms_(logo).png" alt="OYO Rooms" className="max-w-16 max-h-10 md:max-w-20 md:max-h-12 object-contain" />
+                     <img src={oyoRoomsLogo} alt="OYO Rooms" className="max-w-16 max-h-10 md:max-w-20 md:max-h-12 object-contain" />
                    </div>
                    <div className="flex items-center justify-center w-24 h-16 md:w-32 md:h-20 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border border-border/20">
-                     <img src="/src/Assets/Amazon_logo.svg.png" alt="Amazon" className="max-w-16 max-h-10 md:max-w-20 md:max-h-12 object-contain" />
+                     <img src={amazonLogo} alt="Amazon" className="max-w-16 max-h-10 md:max-w-20 md:max-h-12 object-contain" />
                    </div>
                    <div className="flex items-center justify-center w-24 h-16 md:w-32 md:h-20 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border border-border/20">
-                     <img src="/src/Assets/Microsoft_logo_(2012).svg.png" alt="Microsoft" className="max-w-16 max-h-10 md:max-w-20 md:max-h-12 object-contain" />
+                     <img src={microsoftLogo} alt="Microsoft" className="max-w-16 max-h-10 md:max-w-20 md:max-h-12 object-contain" />
                    </div>
                    <div className="flex items-center justify-center w-24 h-16 md:w-32 md:h-20 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border border-border/20">
-                     <img src="/src/Assets/65225ab6d965e5804a632b643e317bf4.jpg" alt="Company" className="max-w-16 max-h-10 md:max-w-20 md:max-h-12 object-contain" />
+                     <img src={companyLogo} alt="Company" className="max-w-16 max-h-10 md:max-w-20 md:max-h-12 object-contain" />
                    </div>
             </div>
             
                  {/* Duplicate set for seamless loop */}
                  <div className="flex items-center gap-6 md:gap-12 px-3 md:px-6 flex-shrink-0">
                    <div className="flex items-center justify-center w-24 h-16 md:w-32 md:h-20 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border border-border/20">
-                     <img src="/src/Assets/ola-cabs-logo-png-transparent.png" alt="Ola Cabs" className="max-w-16 max-h-10 md:max-w-20 md:max-h-12 object-contain" />
+                     <img src={olaCabsLogo} alt="Ola Cabs" className="max-w-16 max-h-10 md:max-w-20 md:max-h-12 object-contain" />
               </div>
                    <div className="flex items-center justify-center w-24 h-16 md:w-32 md:h-20 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border border-border/20">
-                     <img src="/src/Assets/OYO_Rooms_(logo).png" alt="OYO Rooms" className="max-w-16 max-h-10 md:max-w-20 md:max-h-12 object-contain" />
+                     <img src={oyoRoomsLogo} alt="OYO Rooms" className="max-w-16 max-h-10 md:max-w-20 md:max-h-12 object-contain" />
             </div>
                    <div className="flex items-center justify-center w-24 h-16 md:w-32 md:h-20 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border border-border/20">
-                     <img src="/src/Assets/Amazon_logo.svg.png" alt="Amazon" className="max-w-16 max-h-10 md:max-w-20 md:max-h-12 object-contain" />
+                     <img src={amazonLogo} alt="Amazon" className="max-w-16 max-h-10 md:max-w-20 md:max-h-12 object-contain" />
                    </div>
                    <div className="flex items-center justify-center w-24 h-16 md:w-32 md:h-20 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border border-border/20">
-                     <img src="/src/Assets/Microsoft_logo_(2012).svg.png" alt="Microsoft" className="max-w-16 max-h-10 md:max-w-20 md:max-h-12 object-contain" />
+                     <img src={microsoftLogo} alt="Microsoft" className="max-w-16 max-h-10 md:max-w-20 md:max-h-12 object-contain" />
                    </div>
                    <div className="flex items-center justify-center w-24 h-16 md:w-32 md:h-20 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border border-border/20">
-                     <img src="/src/Assets/65225ab6d965e5804a632b643e317bf4.jpg" alt="Company" className="max-w-16 max-h-10 md:max-w-20 md:max-h-12 object-contain" />
+                     <img src={companyLogo} alt="Company" className="max-w-16 max-h-10 md:max-w-20 md:max-h-12 object-contain" />
                    </div>
                 </div>
               </div>
