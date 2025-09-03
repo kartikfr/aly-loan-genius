@@ -13,8 +13,7 @@ import oyoRoomsLogo from '@/Assets/OYO_Rooms_(logo).png';
 import amazonLogo from '@/Assets/Amazon_logo.svg.png';
 import microsoftLogo from '@/Assets/Microsoft_logo_(2012).svg.png';
 import groupPhoto from '@/Assets/group photo.webp';
-import newCompanyLogo from '@/Assets/6bed123accf95b38fb97e32f39df4c2e.jpg';
-
+import additionalCompanyLogo from '@/Assets/b29fb5dee41abf07b4890178e4a5b397.png';
 // Custom hook for number animation
 const useCountUp = (end: number, duration: number = 2000) => {
   const [count, setCount] = useState(0);
@@ -519,7 +518,7 @@ const Index = () => {
                      <img src={microsoftLogo} alt="Microsoft" className="max-w-16 max-h-10 md:max-w-20 md:max-h-12 object-contain" />
                    </div>
                    <div className="flex items-center justify-center w-24 h-16 md:w-32 md:h-20 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border border-border/20">
-                     <img src={newCompanyLogo} alt="Company" className="max-w-16 max-h-10 md:max-w-20 md:max-h-12 object-contain" />
+                     <img src={additionalCompanyLogo} alt="Additional Company" className="max-w-16 max-h-10 md:max-w-20 md:max-h-12 object-contain" />
                    </div>
             </div>
             
@@ -538,7 +537,7 @@ const Index = () => {
                      <img src={microsoftLogo} alt="Microsoft" className="max-w-16 max-h-10 md:max-w-20 md:max-h-12 object-contain" />
                    </div>
                    <div className="flex items-center justify-center w-24 h-16 md:w-32 md:h-20 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border border-border/20">
-                     <img src={newCompanyLogo} alt="Company" className="max-w-16 max-h-10 md:max-w-20 md:max-h-12 object-contain" />
+                     <img src={additionalCompanyLogo} alt="Additional Company" className="max-w-16 max-h-10 md:max-w-20 md:max-h-12 object-contain" />
                    </div>
                 </div>
               </div>
